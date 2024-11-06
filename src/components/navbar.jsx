@@ -1,6 +1,6 @@
-const React = require('react');
+import './../assets/styles/style.css'
 
-const Navbar = () => {
+function Navbar(){
   return (
         <nav>
             <ul>
@@ -11,8 +11,6 @@ const Navbar = () => {
             </ul>
         </nav>
   );
-};
+}
 
-module.exports = Navbar;
-
-
+export default Navbar
