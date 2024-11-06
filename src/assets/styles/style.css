@@ -1,6 +1,6 @@
 nav {
     display: flex;
-    justify-content: center;
+    justify-content: right;
     background-color: #bb6351;
   }
   
@@ -11,10 +11,17 @@ nav {
   }
   
   nav li { 
-    padding: 10px;
+    float: left;
+    padding: 20px;
   }
   
   nav a {
+    display: block;
+    padding: 15px;
     color: #ffffff;
     text-decoration: none;
+  }
+
+  nav li a:hover {
+    background-color: #904b3e;
   }

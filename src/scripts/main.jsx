@@ -1,10 +1,12 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import './assets/styles/index.css'
-import Navbar from './components/navbar.jsx'
+import { BrowserRouter as Router } from 'react-router-dom';
+import Navbar from '../components/navbar.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <Navbar />
+    <Router>
+      <Navbar />
+    </Router>
   </StrictMode>,
 )
