@@ -18,3 +18,25 @@ nav {
     color: #ffffff;
     text-decoration: none;
   }
+
+body {
+    background-color: goldenrod;
+    font-family: Arial, sans-serif;
+  }
+
+h1 {
+    text-align: center;
+    color: #bb6351;
+  }
+
+#registerBtn {
+    text-align: center;
+    color: black;
+    background-color: #bb6351;
+  }
+
+#loginBtn {
+    text-align: center;
+    color: black;
+    background-color: transparent; 
+  }

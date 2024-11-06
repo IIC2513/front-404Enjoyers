@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <title>Lords of the Abbys</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="assets/styles/styles.css">
+    <link rel="stylesheet" href="../assets/styles/styles.css">
+    <script defer src="../scripts/register.js"></script>
 </head>
 
 <body>
@@ -22,7 +23,32 @@
             <a href="about.html">About</a>
         </div>
         <main>
-        
+            <div class="registerBox">
+                <h4>Register</h4>
+                <form id="registerForm">
+                    <div>
+                        <label>Username</label>
+                        <input type="text" id="username" name="username" required>
+                    </div>
+                    <div>
+                        <label>Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div>
+                        <label>Password</label>
+                        <input type="password" id="password" name="password" required>
+                    </div>
+                    <div>
+                        <label>Confirm password</label>
+                        <input type="password" id="confirm_password" name="confirm_password" required>
+                    </div>
+                    <input type="submit" id="submitBtn" disabled>
+                </form>
+                <div id="errorMessages" style="color: red;"></div>
+                <button id="loginBtn" type="button" onclick="window.location.href='login.html'">
+                    I already have an account
+                </button>
+            </div>
         </main>
     </article>
     <footer>
