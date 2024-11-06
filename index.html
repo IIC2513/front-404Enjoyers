@@ -5,37 +5,34 @@
     <meta charset="UTF-8">
     <title>Lords of the Abbys</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="src/assets/styles/styles.css">
+    <link rel="stylesheet" href="src/assets/styles/index.css">
 </head>
 
-<body id="homeBody">
-    <div id="root"></div>
-    <article>
-        <header>
-            <h1>Lords of the Abbys</h1>
-            <h4>There's no escape...</h4>
-        </header>
-        <div class="navbar">
-            <a href="index.html">Home</a>
-            <a href="src/views/guide.html">Guide</a>
-            <a href="src/views/wiki.html">Wiki</a>
-            <a href="src/views/about.html">About</a>
+<body>
+    <div class="navbar">
+        <link rel="stylesheet" href="src/assets/styles/navbar.css">
+        <a href="index.html" class="navbar-logo">
+            <img src="src/assets/styles/imgs/logo.png" alt="Logo" class="logo-image">
+        </a>
+        <a href="index.html">Home</a>
+        <a href="src/views/guide.html">Guide</a>
+        <a href="src/views/wiki.html">Wiki</a>
+        <a href="src/views/about.html">About</a>
+    </div>
+    <div class="container">
+        <div class="left-column">
+            <header>
+                <h1>Lords of the Abbys</h1>
+                <h4>There's no escape...</h4>
+            </header>
+            <main>
+                <button id="registerBtn" type="button" onclick="window.location.href='src/views/register.html'">Register</button>
+                <button id="loginBtn" type="button" onclick="window.location.href='src/views/login.html'">Log in</button>
+            </main>
         </div>
-        <main>
-            <section>
-                <div>
-                    <button id="registerBtn" type="button" onclick="window.location.href='src/views/register.html'">
-                        Register
-                    </button>
-                    <button id="loginBtn" type="button" onclick="window.location.href='src/views/login.html'">
-                        Log in
-                    </button>
-                </div>
-            </section>
-        </main>
-    </article>
-    <footer>
-    </footer>
+        <div class="right-column">
+        </div>
+    </div>
 </body>
 
 </html>
