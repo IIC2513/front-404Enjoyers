@@ -1,9 +1,10 @@
-function About(){
-    return(
-        <div className = "about">
+function Game() {
+
+  return (
+    <div className="game">
             <article>
                 <header>
-                    <h1>About</h1>
+                    <h1>Gamescreen</h1>
                     <h4></h4>
                 </header>
                 <main>
@@ -11,8 +12,8 @@ function About(){
             </article>
             <footer>
             </footer>
-        </div>
-    );
+    </div>
+  );
 }
 
-export default About
+export default Game;

@@ -1,7 +1,16 @@
 function Guide(){
     return(
         <div className = "guide">
-            <h1>Guide</h1>
+                <article>
+                    <header>
+                        <h1>Guide</h1>
+                        <h4></h4>
+                    </header>
+                    <main>
+                    </main>
+                </article>
+                <footer>
+                </footer>
         </div>
     );
 }

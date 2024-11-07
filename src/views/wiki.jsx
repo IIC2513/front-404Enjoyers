@@ -1,7 +1,16 @@
 function Wiki(){
     return(
         <div className = "wiki">
-            <h1>Wiki</h1>
+                <article>
+                    <header>
+                        <h1>Wiki</h1>
+                        <h4></h4>
+                    </header>
+                    <main>
+                    </main>
+                </article>
+                <footer>
+                </footer>
         </div>
     );
 }

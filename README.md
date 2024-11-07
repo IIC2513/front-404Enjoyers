@@ -6,6 +6,20 @@
 - Matías Harrison
 - Benjamín Martinez
 
+## Ejecución
+
+Si no has instalado las dependencias, utiliza el siguiente comando en consola
+```console
+    yarn
+```
+
+Luego, para iniciar la página localmente, utiliza el siguiente comando en consola
+```console
+    yarn dev
+```
+
+Por último, abre el link que se muestra en la consola
+
 ## Documentos
 Los .pdf de las entregas se encuentran en ```docs```
 
