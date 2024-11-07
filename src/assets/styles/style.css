@@ -1,38 +1,54 @@
+/* Elimina espacios en blanco al rededor de la pagina */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body, html {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
+/* ----------------------------------- */
+
 nav {
   display: flex;
-  justify-content: right;
+  justify-content: left;
   background-color: #bb6351;
 }
 
 nav ul {
   list-style: none;
-  padding: 0;
-  margin: 0;
+  padding: 30px;
+  margin: 0px;
 }
 
 nav li { 
   float: left;
   padding: 20px;
+  margin: 0px;
 }
 
 nav a {
   display: block;
-  padding: 15px;
+  padding: 10px;
   color: #ffffff;
   text-decoration: none;
 }
 
 nav li a:hover {
-  background-color: #904b3e;
+  background-color: #4b1206;
 }
 
 .navbar-logo {
   margin-right: auto; /* Pushes the logo to the left */
-  padding-left: 20px; /* Adjust as necessary */
+  padding-left: 130px; /* Adjust as necessary */
 }
 
 .logo-image {
-  height: 60px;
+  height: 120px;
   width: auto;
   cursor: pointer;
 }
@@ -41,11 +57,11 @@ nav li a:hover {
 /* HOME */
 
 .home {
-  background-color: goldenrod;
+  background-color: rgb(224, 129, 35);
   font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-  height: 100vh;
+  margin: 0px;
+  padding: 0px;
+  height: 90vh;
   display: flex;
   flex-direction: column;
 }
@@ -55,7 +71,7 @@ nav li a:hover {
   flex: 1;
   width: 100%;
   height: 100vh;
-  margin-top: 7%; /* Ajuste para la altura de la navbar */
+  margin-top: 0%; /* Ajuste para la altura de la navbar */
 }
 
 .home .left-column {
