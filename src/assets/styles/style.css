@@ -1,0 +1,267 @@
+nav {
+  display: flex;
+  justify-content: right;
+  background-color: #bb6351;
+}
+
+nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+nav li { 
+  float: left;
+  padding: 20px;
+}
+
+nav a {
+  display: block;
+  padding: 15px;
+  color: #ffffff;
+  text-decoration: none;
+}
+
+nav li a:hover {
+  background-color: #904b3e;
+}
+
+.navbar-logo {
+  margin-right: auto; /* Pushes the logo to the left */
+  padding-left: 20px; /* Adjust as necessary */
+}
+
+.logo-image {
+  height: 60px;
+  width: auto;
+  cursor: pointer;
+}
+
+
+/* HOME */
+
+.home {
+  background-color: goldenrod;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.home .container {
+  display: flex;
+  flex: 1;
+  width: 100%;
+  height: 100vh;
+  margin-top: 7%; /* Ajuste para la altura de la navbar */
+}
+
+.home .left-column {
+  width: 25%; /* 1/4 de la pantalla */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  padding: 20px;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.home .right-column {
+  width: 75%; /* 3/4 de la pantalla */
+  background-image: url('../imgs/main.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.home header {
+  padding: 2%;
+  text-align: center;
+  color: #bb6351;
+  margin-bottom: 20px;
+}
+
+.home h1 {
+  text-align: center;
+  color: #bb6351;
+  font-size: 200%;
+  position: relative;
+  z-index: 1;
+  padding: 2%;
+}
+
+.home h4 {
+  text-align: center;
+  color: #bb6351;
+  font-size: 120%;
+  position: relative;
+  z-index: 1;
+  padding: 2%;
+}
+
+.home #registerBtn {
+  text-align: center;
+  color: black;
+  background-color: #bb6351;
+  padding: 10%;
+  font-size: 130%;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 10px 0;
+  width: 80%;
+}
+
+.home #registerBtn:hover {
+  background-color: #9e4c38;
+}
+
+.home #loginBtn {
+  text-align: center;
+  color: black;
+  background-color: transparent;
+  border: 1px solid #bb6351;
+  font-size: 130%;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 10%;
+  width: 80%;
+}
+
+.home #loginBtn:hover {
+  background-color: #f5f5f5;
+}
+
+
+/* LOGIN */
+
+.login {
+  background-color: rgba(248, 242, 233, 0.759);
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login .auth-container {
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    text-align: center;
+}
+
+.login h4 {
+    color: #333;
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+}
+
+.login input[type="text"], input[type="email"], input[type="password"], input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.login input[type="submit"] {
+    background-color: #bb6351;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.login input[type="submit"]:hover {
+    background-color: #9e4c38;
+}
+
+.login #registerBtn, #loginBtn {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    margin-top: 10px;
+    color: #bb6351;
+    background-color: transparent;
+    border: 1px solid #bb6351;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* REGISTER  */
+
+.register {
+  background-color: rgba(248, 242, 233, 0.759);
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.register .auth-container {
+  background-color: white;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 300px;
+  text-align: center;
+}
+
+.register h4 {
+  color: #333;
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+}
+
+.register input[type="text"], input[type="email"], input[type="password"], input[type="submit"] {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.register input[type="submit"] {
+  background-color: #bb6351;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.register input[type="submit"]:hover {
+  background-color: #9e4c38;
+}
+
+.register #registerBtn, #loginBtn {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  margin-top: 10px;
+  color: #bb6351;
+  background-color: transparent;
+  border: 1px solid #bb6351;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+
+    
+
+    
+
+

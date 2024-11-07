@@ -2,37 +2,14 @@
 <html lang="es">
 
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="src/assets/imgs/logo.png" />
     <title>Lords of the Abbys</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="src/assets/styles/index.css">
 </head>
 
 <body>
-    <div class="navbar">
-        <link rel="stylesheet" href="src/assets/styles/navbar.css">
-        <a href="index.html" class="navbar-logo">
-            <img src="src/assets/styles/imgs/logo.png" alt="Logo" class="logo-image">
-        </a>
-        <a href="index.html">Home</a>
-        <a href="src/views/guide.html">Guide</a>
-        <a href="src/views/wiki.html">Wiki</a>
-        <a href="src/views/about.html">About</a>
-    </div>
-    <div class="container">
-        <div class="left-column">
-            <header>
-                <h1>Lords of the Abbys</h1>
-                <h4>There's no escape...</h4>
-            </header>
-            <main>
-                <button id="registerBtn" type="button" onclick="window.location.href='src/views/register.html'">Register</button>
-                <button id="loginBtn" type="button" onclick="window.location.href='src/views/login.html'">Log in</button>
-            </main>
-        </div>
-        <div class="right-column">
-        </div>
-    </div>
+    <div id="root"></div>
+    <script type="module" src="/src/scripts/main.jsx"></script>
 </body>
-
 </html>
