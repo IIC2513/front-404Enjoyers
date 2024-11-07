@@ -1,6 +1,8 @@
 function Wiki(){
     return(
-        <h1>Wiki</h1>
+        <div className = "wiki">
+            <h1>Wiki</h1>
+        </div>
     );
 }
 

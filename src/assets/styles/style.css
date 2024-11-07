@@ -1,4 +1,4 @@
-nav {
+  nav {
     display: flex;
     justify-content: right;
     background-color: #bb6351;
@@ -22,6 +22,15 @@ nav {
     text-decoration: none;
   }
 
-  nav li a:hover {
+  .home nav li a:hover {
     background-color: #904b3e;
   }
+
+  /* .guide nav {
+    display: flex;
+    justify-content: right;
+    background-color: #c7ae76;
+  }
+  .guide nav li a:hover {
+    background-color: #c7ae76;
+  } */

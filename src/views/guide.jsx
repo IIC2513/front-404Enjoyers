@@ -1,6 +1,8 @@
 function Guide(){
     return(
-        <h1>Guide</h1>
+        <div className = "guide">
+            <h1>Guide</h1>
+        </div>
     );
 }
 
