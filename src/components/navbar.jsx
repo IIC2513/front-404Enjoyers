@@ -14,6 +14,7 @@ function Navbar(){
               <li><Link to="/guide">Guide</Link></li>
               <li><Link to="/wiki">Wiki</Link></li>
               <li><Link to="/about">About Us</Link></li>
+              <li><Link to="/matches">Ir a Partida</Link></li>
             </ul>
         </nav>
     </>
