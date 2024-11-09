@@ -19,7 +19,7 @@ function AssignCharacter({ matchId, userId }) {
     <div className="assign-character">
       <input
         type="text"
-        placeholder="Nombre del personaje"
+        placeholder="Name your character"
         value={charName}
         onChange={(e) => setCharName(e.target.value)}
       />

@@ -30,16 +30,6 @@ export async function leaveMatch(match_id, user_id) {
     return await response.json();
 }
 
-// Funcion para empezar una partida
-export async function startMatch(match_id, map) {
-    const response = await fetch(`${BASE_URL}/matches/start`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ match_id, map })
-    });
-    return await response.json();
-}
-
 // Funcion para avanzar al siguiente turno
 export async function nextTurn(match_id) {
     const response = await fetch(`${BASE_URL}/matches/next_turn`, {
@@ -92,4 +82,30 @@ export async function getUserMatches(user_id) {
         console.error("Error al obtener las partidas del usuario:", error);
         return { userMatches: [] }; // Devuelve un array vacío en caso de error
     }
+}
+
+// Funcion para obtener los detalles de una partida
+export async function getMatchDetails(matchId) {
+    const response = await fetch(`${BASE_URL}/matches/${matchId}`);
+    return response.json();
+}
+
+// Funcion para seleccionar un personaje
+export async function setCharacter(matchId, userId, charClass, charName) {
+    const response = await fetch(`${BASE_URL}/matches/set_character`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ match_id: matchId, user_id: userId, char_class: charClass, char_name: charName })
+    });
+    return response.json();
+}
+
+// Funcion para empezar una partida
+export async function startMatch(matchId, map) {
+    const response = await fetch(`${BASE_URL}/matches/start`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ match_id: matchId, map })
+    });
+    return response.json();
 }

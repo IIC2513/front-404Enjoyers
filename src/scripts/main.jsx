@@ -10,6 +10,7 @@ import Login from '../views/login.jsx'
 import Register from '../views/register.jsx'
 import Game from '../views/game.jsx'
 import MatchPage from '../views/match.jsx';
+import MatchDetail from '../views/matchdetails.jsx';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -24,6 +25,7 @@ createRoot(document.getElementById('root')).render(
           <Route path="/register" element={<Register />} />
           <Route path="/game" element={<Game />} />
           <Route path="/matches" element={<MatchPage />} />
+          <Route path="/matches/:matchId" element={<MatchDetail />} />
       </Routes>
     </Router>
   </StrictMode>,

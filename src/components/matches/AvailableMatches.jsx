@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { getAvailableMatches, joinMatch } from './MatchService';
+import { getAvailableMatches, joinMatch, getMatchDetails } from './MatchService';
+import { useNavigate } from 'react-router-dom';
 
 function AvailableMatches({ userId }) {
     const [matches, setMatches] = useState([]);
     const [selectedMatchId, setSelectedMatchId] = useState(null);
     const [password, setPassword] = useState('');
+    const navigate = useNavigate();
 
     useEffect(() => {
         async function fetchMatches() {
@@ -67,6 +69,21 @@ function AvailableMatches({ userId }) {
         }
     };
 
+    const handleMatchClick = async (match) => {
+        // Primero verifica si la partida existe en el backend antes de navegar
+        try {
+            const matchDetails = await getMatchDetails(match.id);
+            if (matchDetails) {
+                console.log(`Navigating to match with ID: ${match.id}`);
+               navigate(`/matches/${match.id}`);
+            } else {
+                alert("Match not found.");
+            }
+        } catch (error) {
+            alert("Error retrieving match details: " + error.message);
+        }
+    };
+
     return (
         <div>
             <h2>Waiting Matches</h2>
@@ -74,11 +91,17 @@ function AvailableMatches({ userId }) {
                 {matches.map((match) => (
                     <li 
                         key={match.id} 
-                        onClick={() => handleJoinMatch(match)} 
+                        onClick={() => handleMatchClick(match)} // Redirige a la página de detalles
                         style={{ cursor: 'pointer', color: match.public ? 'black' : 'red' }}
                     >
                         ID: {match.id}, Public: {match.public ? 'yes' : 'No'}, 
                         Players: {match.users.length}/4
+                        {match.status === 'waiting' && (
+                            <button onClick={(e) => {
+                                e.stopPropagation(); // Evita la navegación al hacer clic en el botón
+                                handleJoinMatch(match);
+                            }}>Join</button>
+                        )}
                     </li>
                 ))}
             </ul>
@@ -89,7 +112,7 @@ function AvailableMatches({ userId }) {
                     <h3>Enter the password to join the match {selectedMatchId}</h3>
                     <input
                         type="password"
-                        placeholder="Contraseña"
+                        placeholder="Password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                     />
