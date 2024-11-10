@@ -275,6 +275,41 @@ nav li a:hover {
   cursor: pointer;
 }
 
+/* Tablero */
+
+.board-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 115vh; /* Ajusta el tamaño para evitar que toque el fondo */
+  background-image: url('../imgs/Dark_Castle_Background.jpg');
+  background-size: cover;
+  background-position: center;
+  padding-top: 0px; /* Espacio debajo de la navbar */
+}
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(16, 40px);
+  margin: auto;
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.board-cell {
+  width: 40px;
+  height: 40px;
+  display: inline-block;
+  background-size: cover;
+  border: 1px solid black;
+}
+
+.board-title {
+  text-align: center;
+  margin-bottom: 20px;
+}
 
     
 
