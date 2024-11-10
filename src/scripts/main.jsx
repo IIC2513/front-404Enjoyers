@@ -11,6 +11,7 @@ import Register from '../views/register.jsx'
 import Game from '../views/game.jsx'
 import MatchPage from '../views/match.jsx';
 import MatchDetail from '../views/matchdetails.jsx';
+import GameBoard from '../views/GameBoard.jsx';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -26,6 +27,7 @@ createRoot(document.getElementById('root')).render(
           <Route path="/game" element={<Game />} />
           <Route path="/matches" element={<MatchPage />} />
           <Route path="/matches/:matchId" element={<MatchDetail />} />
+          <Route path="/boards/:matchId" element={<GameBoard />} />
       </Routes>
     </Router>
   </StrictMode>,

@@ -5,7 +5,7 @@ import AvailableMatches from '../components/matches/AvailableMatches';
 import AvailableUserMatches from '../components/matches/AvailableUserMatches';
 
 function MatchPage() {
-    const userId = 4; // Dato harcodeado, debería ser el ID del usuario logueado
+    const userId = 1; // Dato harcodeado, debería ser el ID del usuario logueado
 
     return (
         <div>

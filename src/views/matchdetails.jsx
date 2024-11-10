@@ -6,10 +6,9 @@ import { getMatchDetails, startMatch } from '../components/matches/MatchService'
 
 function MatchDetail() {
     const { matchId } = useParams(); // Obtenemos `matchId` de la URL
-    console.log("MatchDetail -> matchId", matchId);
     const [match, setMatch] = useState(null);
     const [message, setMessage] = useState('');
-    const userId = 4; // Dato harcodeado, debería ser el ID del usuario logueado
+    const userId = 1; // Dato harcodeado, debería ser el ID del usuario logueado
 
     useEffect(() => {
         async function fetchMatchDetails() {
@@ -28,12 +27,12 @@ function MatchDetail() {
         if (match.users[0] === userId) { // Solo el creador puede iniciar
             const response = await startMatch(parseInt(matchId), match.selectedMap);
             if (response.status === 'success') {
-                setMessage("Game successfully started!");
+                alert("Game successfully started!");
             } else {
-                setMessage("Error starting the game " + response.message);
+                alert("Error starting the game " + response.message);
             }
         } else {
-            setMessage("The creator of the match must start the game");
+            alert("The creator of the match must start the game");
         }
     };
 
