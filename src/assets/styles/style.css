@@ -403,3 +403,84 @@ nav li a:hover {
 }
 
 
+
+/* Wiki */
+.wiki {
+  font-family: 'Arial', sans-serif;
+  color: #333;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.wiki section h2 {
+  font-size: 1.5em;
+  margin-bottom: 0.5em;
+}
+
+.wiki ul {
+  list-style-type: none; 
+  padding-left: 0;
+  margin-left: 0;
+}
+
+.wiki ul > li {
+  font-size: 1.2em;
+  margin-bottom: 0.5em;
+  font-weight: bold;
+}
+
+.wiki ul > li > ul > li {
+  font-size: 1em;
+  margin-left: 20px; 
+  font-weight: normal;
+}
+
+.wiki ul > li > ul > li > ul > li {
+  font-size: 0.9em;
+  margin-left: 40px; 
+  font-style: italic;
+  color: #555;
+}
+
+
+.wiki ul a {
+  text-decoration: none;
+  color: #333;
+}
+
+.wiki ul a:hover {
+  text-decoration: underline;
+  color: #555;
+}
+
+.wiki h1, .wiki h2 {
+  text-align: center;
+  color: #333;
+  margin: 1.5em 0;
+}
+
+.wiki h2 {
+  font-size: 2em;
+  margin-top: 1em;
+  border-bottom: 2px solid #666;
+  padding-bottom: 0.3em;
+}
+
+.wiki h3 {
+  font-size: 1.5em;
+  margin-top: 1.2em;
+  color: #444;
+}
+
+.wiki h4 {
+  font-size: 1.2em;
+  color: #555;
+  margin-top: 0.8em;
+}
+
+.wiki p {
+  line-height: 1.6;
+  margin-top: 0.5em;
+  color: #666;
+}
