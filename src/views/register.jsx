@@ -7,7 +7,6 @@ function Register() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [errors, setErrors] = useState([]);
-  const [isValid, setIsValid] = useState(false);
   const navigate = useNavigate();
 
   const checkFormValidity = () => {
@@ -37,74 +36,71 @@ function Register() {
     }
 
     setErrors(newErrors);
-    setIsValid(allFieldsValid);
+    return allFieldsValid;
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    checkFormValidity();
-
-    if (isValid) {
-      // Redirect to game page or handle successful registration
+    const isFormValid = checkFormValidity(); // Validar directamente
+    if (isFormValid) {
       navigate('/game');
     }
   };
 
   return (
     <div className="register">
-
-    <div className="registerBox">
-      <h4>Register</h4>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Username</label>
-          <input
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
+      <div className="registerBox">
+        <h4>Register</h4>
+        <form onSubmit={handleSubmit}>
+          <div>
+            <label>Username</label>
+            <input
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
             />
-        </div>
-        <div>
-          <label>Email</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
+          </div>
+          <div>
+            <label>Email</label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
             />
-        </div>
-        <div>
-          <label>Password</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
+          </div>
+          <div>
+            <label>Password</label>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
             />
-        </div>
-        <div>
-          <label>Confirm password</label>
-          <input
-            type="password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            required
+          </div>
+          <div>
+            <label>Confirm password</label>
+            <input
+              type="password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              required
             />
-        </div>
-        <button type="submit" disabled={!isValid}>Submit</button>
-      </form>
-      {errors.length > 0 && (
+          </div>
+          <button type="submit">Submit</button>
+        </form>
+        {errors.length > 0 && (
           <div id="errorMessages" style={{ color: 'red' }}>
-          {errors.map((error, index) => (
+            {errors.map((error, index) => (
               <div key={index}>{error}</div>
             ))}
-        </div>
-      )}
-      <button id="loginBtn" type="button" onClick={() => navigate('/login')}>
-        I already have an account
-      </button>
-    </div>
+          </div>
+        )}
+        <button id="loginBtn" type="button" onClick={() => navigate('/login')}>
+          I already have an account
+        </button>
+      </div>
     </div>
   );
 }
