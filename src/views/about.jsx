@@ -18,9 +18,9 @@ function About(){
                     <p>You can reach us to give us feedback or suggestions on how to make this game even better. We are eager to know your ideas!</p>
                     <p>Send an email to any one of us, and we'll get back to you as soon as possible.</p>
                     <ul className="contact-list">
-                        <li><a href="mailto:n.arayat@uc.cl">Nicolás</a></li>
-                        <li><a href="mailto:bmartnez@uc.cl">Benjamín</a></li>
-                        <li><a href="mailto:matiasharrison@uc.cl">Matías</a></li>
+                        <li>Nicolás: <a href="mailto:n.arayat@uc.cl">nicolas@example.com</a></li>
+                        <li>Benjamín: <a href="mailto:bmartnez@uc.cl">benjamin@example.com</a></li>
+                        <li>Matías: <a href="mailto:matiasharrison@uc.cl">matiasharrison@uc.cl</a></li>
                     </ul>
                 </main>
             </article>
