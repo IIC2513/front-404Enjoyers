@@ -8,7 +8,6 @@ function Wiki() {
                 </header>
                 <main>
                     <section>
-                        <h2>Index</h2>
                         <ul>
                             <li><a href="#general-history">General History</a>
                                 <ul>
