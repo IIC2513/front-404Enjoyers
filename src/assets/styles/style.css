@@ -154,6 +154,46 @@ nav li a:hover {
   background-color: #f5f5f5;
 }
 
+.home #playBtn {
+  text-align: center;
+  color: black;
+  background-color: #d0a832;
+  padding: 10%;
+  font-size: 130%;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 25px;
+  width: 80%;
+}
+
+.home #playBtn:hover {
+  background-color: #9c7e25;
+}
+
+#logoutBtn {
+  text-align: center;
+  color: black;
+  background-color: #e8d7d3;
+  padding: 3px;
+  font-size: 100%;
+  border: none;
+  border-radius: 5px;
+  margin: 5px;
+}
+
+#logoutBtn:hover {
+  background-color: #baadaa;
+}
+
+.welcome {
+  display:grid;
+  justify-content: right;
+  background-color: #ba796b;
+  color: #ffffff;
+}
+
+
 
 /* LOGIN */
 

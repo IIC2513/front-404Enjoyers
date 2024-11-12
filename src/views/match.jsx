@@ -3,9 +3,13 @@ import CreateMatch from '../components/matches/CreateMatch';
 import JoinMatch from '../components/matches/JoinMatch';
 import AvailableMatches from '../components/matches/AvailableMatches';
 import AvailableUserMatches from '../components/matches/AvailableUserMatches';
+import { useContext, useEffect, useState } from 'react';
+import { AuthContext } from '../components/auth/AuthContext';
+import parseJwt from '../components/auth/AuthParser';
 
 function MatchPage() {
-    const userId = 1; // Dato harcodeado, debería ser el ID del usuario logueado
+    const {token} = useContext(AuthContext);
+    const userId = parseJwt(token)?.sub;
 
     return (
         <div>

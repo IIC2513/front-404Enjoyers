@@ -1,16 +1,22 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { getUserMatches } from './MatchService';
+import { AuthContext } from '../auth/AuthContext';
 
 function AvailableUserMatches({ userId }) {
     const [matches, setMatches] = useState([]);
+    const {token} = useContext(AuthContext);
 
     useEffect(() => {
         async function fetchMatches() {
-            const response = await getUserMatches(userId);
-            setMatches(response.matches || []);
+            try{
+                const response = await getUserMatches(userId, token);
+                setMatches(response.matches || []);
+            }catch(error){
+                alert("Error at load user matches: " + error.message);
+            }
         }
         fetchMatches();
-    }, [userId]);
+    }, []);
 
     return (
         <div>

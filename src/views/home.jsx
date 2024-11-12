@@ -1,7 +1,10 @@
 import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../components/auth/AuthContext';
+import { useContext, useEffect, useState } from 'react';
 
 function Home() {
   const navigate = useNavigate();
+  const {token} = useContext(AuthContext);
 
   return (
     <div className="home">
@@ -12,13 +15,15 @@ function Home() {
             <h4>There's no escape...</h4>
           </header>
           <main>
-            <button id="registerBtn" type="button" onClick={() => navigate('/register')}>
+            {!token && <button id="registerBtn" type="button" onClick={() => navigate('/register')}>
               Register
-            </button>
-            <button id="loginBtn" type="button" onClick={() => navigate('/login')}
-            >
+            </button>}
+            {!token && <button id="loginBtn" type="button" onClick={() => navigate('/login')}>
               Log in
-            </button>
+            </button>}
+            {token && <button id="playBtn" type="button" onClick={() => navigate('/matches')}>
+              Play
+            </button>}
           </main>
         </div>
         <div className="right-column">
