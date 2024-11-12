@@ -10,6 +10,7 @@ function AuthProvider({children}){
 
     function logout(){
         setToken(null);
+        localStorage.removeItem("token");
     }
 
     return (

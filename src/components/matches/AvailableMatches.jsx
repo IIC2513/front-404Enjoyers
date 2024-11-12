@@ -1,18 +1,32 @@
-import React, { useEffect, useState } from 'react';
-import { getAvailableMatches, joinMatch, getMatchDetails } from './MatchService';
+import React, { useContext, useEffect, useState } from 'react';
+import { getAvailableMatches, joinMatch, getMatchDetails, getUsers } from './MatchService';
 import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../auth/AuthContext';
 
 function AvailableMatches({ userId }) {
     const [matches, setMatches] = useState([]);
+    const [users, setUsers] = useState([])
     const [selectedMatchId, setSelectedMatchId] = useState(null);
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
+    const {token} = useContext(AuthContext);
+
 
     useEffect(() => {
         async function fetchMatches() {
             try {
-                const response = await getAvailableMatches();
-                setMatches(response.availableMatches || []);
+                const matchesResponse = await getAvailableMatches(token);
+                const availableMatches = matchesResponse.availableMatches || [];
+
+                setMatches(availableMatches);
+
+                const usersPromises = availableMatches.map(async (match) => {
+                    const usersResponse = await getUsers(match.id, token);
+                    return usersResponse.users;
+                });
+
+                const usersForMatches = await Promise.all(usersPromises);
+                setUsers(usersForMatches);
             } catch (error) {
                 alert("Error at load available matches: " + error.message);
             }
@@ -32,7 +46,7 @@ function AvailableMatches({ userId }) {
             return;
         }
 
-        if (match.users.length >= 4) { // Cambio aquí: comparar con `>=` y no `=`
+        if (users.length >= 4) { // Cambio aquí: comparar con `>=` y no `=`
             alert(`The match with ID: ${match.id} is full.`);
             return;
         }
@@ -88,14 +102,14 @@ function AvailableMatches({ userId }) {
         <div>
             <h2>Waiting Matches</h2>
             <ul>
-                {matches.map((match) => (
+                {matches.map((match, index) => (
                     <li 
                         key={match.id} 
                         onClick={() => handleMatchClick(match)} // Redirige a la página de detalles
                         style={{ cursor: 'pointer', color: match.public ? 'black' : 'red' }}
                     >
                         ID: {match.id}, Public: {match.public ? 'yes' : 'No'}, 
-                        Players: {match.users.length}/4
+                        Players: {users[index]?.length}/4
                         {match.status === 'waiting' && (
                             <button onClick={(e) => {
                                 e.stopPropagation(); // Evita la navegación al hacer clic en el botón

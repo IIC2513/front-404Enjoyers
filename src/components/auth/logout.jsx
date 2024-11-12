@@ -1,13 +1,18 @@
 import React, {useContext, useState} from "react";
 import { AuthContext } from "./AuthContext";
+import { useNavigate } from "react-router-dom";
+
+
+
 
 const LogoutButton = () => {
     const {logout} = useContext(AuthContext);
     const [msg, setMsg] = useState("");
-
+    const navigate = useNavigate();
     const handleLogout = () => {
         logout();
         setMsg("Succesfully logged out");
+        navigate("/");
     }
 
     return (
