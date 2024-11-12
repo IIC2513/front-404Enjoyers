@@ -46,8 +46,10 @@ function Navbar(){
               <li><Link to="/about">About Us</Link></li>
             </ul>
         </nav>
+        <div className='welcome'>
         <h3>{msg}</h3>
         {token !== null && <LogoutButton />}
+        </div>
     </>
   );
 }
