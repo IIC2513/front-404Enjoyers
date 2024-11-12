@@ -5,12 +5,16 @@ function AuthProvider({children}){
     const [token, setToken] = useState(localStorage.getItem("token") || null);
 
     useEffect (() => {
-        localStorage.setItem("token", token);
+        if (token){
+            localStorage.setItem("token", token);
+        }
+        else{
+            localStorage.removeItem("token");
+        }
     }, [token])
 
     function logout(){
         setToken(null);
-        localStorage.removeItem("token");
     }
 
     return (

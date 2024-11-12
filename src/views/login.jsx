@@ -54,6 +54,7 @@ function Login() {
         setToken(access_token);
         navigate('/');
       }).catch((error) => {
+        alert("Invalid credentials");
         console.log(error);
       });
     }
