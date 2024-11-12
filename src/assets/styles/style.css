@@ -677,3 +677,92 @@ footer {
   color: #777;
   margin-top: 2em;
 }
+
+/* Combate */
+
+.battle-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-size: cover;
+  background-position: center;
+  z-index: -2;
+}
+
+.player-info {
+  position: absolute;
+  bottom: 10%;
+  left: 5%;
+  text-align: left;
+}
+
+.player-icon {
+  width: 100px;
+  height: auto;
+}
+
+.player-details {
+  margin-top: 10px;
+  background: rgba(255, 255, 255, 0.8);
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.enemy-info {
+  position: absolute;
+  top: 20%;
+  right: 5%;
+  text-align: right;
+}
+
+.enemy-icon {
+  width: 120px;
+  height: auto;
+}
+
+.enemy-details {
+  margin-top: 10px;
+  background: rgba(255, 255, 255, 0.8);
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.health-bar {
+  width: 100px;
+  height: 10px;
+  background-color: #ddd;
+  border-radius: 5px;
+  margin-top: 5px;
+}
+
+.health-fill {
+  height: 100%;
+  background-color: #f00;
+  border-radius: 5px;
+}
+
+.combat-actions {
+  position: absolute;
+  bottom: 5%;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+}
+
+.combat-actions button {
+  padding: 10px 15px;
+  font-size: 1em;
+  cursor: pointer;
+  background-color: #444;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.combat-actions button:hover {
+  background-color: #666;
+}
