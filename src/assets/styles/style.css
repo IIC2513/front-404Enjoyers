@@ -171,6 +171,29 @@ nav li a:hover {
   background-color: #9c7e25;
 }
 
+#logoutBtn {
+  text-align: center;
+  color: black;
+  background-color: #e8d7d3;
+  padding: 3px;
+  font-size: 100%;
+  border: none;
+  border-radius: 5px;
+  margin: 5px;
+}
+
+#logoutBtn:hover {
+  background-color: #baadaa;
+}
+
+.welcome {
+  display:grid;
+  justify-content: right;
+  background-color: #ba796b;
+  color: #ffffff;
+}
+
+
 
 /* LOGIN */
 
