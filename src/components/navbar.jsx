@@ -47,7 +47,7 @@ function Navbar(){
             </ul>
         </nav>
         <h3>{msg}</h3>
-        {token && <LogoutButton />}
+        {token !== null && <LogoutButton />}
     </>
   );
 }
