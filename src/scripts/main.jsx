@@ -12,9 +12,11 @@ import Game from '../views/game.jsx'
 import MatchPage from '../views/match.jsx';
 import MatchDetail from '../views/matchdetails.jsx';
 import GameBoard from '../views/GameBoard.jsx';
+import AuthProvider from '../components/auth/AuthProvider.jsx';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
+    <AuthProvider>
     <Router>
       <Navbar />
       <Routes>
@@ -30,5 +32,6 @@ createRoot(document.getElementById('root')).render(
           <Route path="/boards/:matchId" element={<GameBoard />} />
       </Routes>
     </Router>
+    </AuthProvider>
   </StrictMode>,
 )

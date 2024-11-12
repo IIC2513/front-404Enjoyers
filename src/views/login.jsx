@@ -1,7 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { AuthContext } from '../components/auth/AuthContext';
 
 function Login() {
+  const {token, setToken} = useContext(AuthContext);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState([]);
@@ -22,8 +25,8 @@ function Login() {
       allFieldsValid = false;
     }
 
-    // Password validation (alphanumeric and at least 8 characters)
-    const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
+    // Password validation (alphanumeric and at least 4 characters)
+    const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{4,}$/;
     if (!passwordRegex.test(password)) {
       newErrors.push("Password must be alphanumeric and at least 8 characters long.");
       allFieldsValid = false;
@@ -39,8 +42,21 @@ function Login() {
     if (!isFormValid) {
       alert("Please fix the highlighted errors before submitting.");
     } else {
+      // Post a ruta de login
+      axios.post(`${import.meta.env.VITE_BACKEND_URL}/auth/login`,
+        {
+          username,
+          password
+        }
+      ).then((response) =>{
+        console.log(response);
+        const access_token = response.data.access_token;
+        setToken(access_token);
+      }).catch((error) => {
+        console.log(error);
+      });
       // Redirect to the game page
-      navigate('/game'); // Assuming you have a /game route
+      navigate('/game');
     }
   };
 
