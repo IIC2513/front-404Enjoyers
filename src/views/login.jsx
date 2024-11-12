@@ -52,11 +52,10 @@ function Login() {
         console.log(response);
         const access_token = response.data.access_token;
         setToken(access_token);
+        navigate('/');
       }).catch((error) => {
         console.log(error);
       });
-      // Redirect to the game page
-      navigate('/game');
     }
   };
 
