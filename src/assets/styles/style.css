@@ -332,6 +332,78 @@ nav li a:hover {
   border-color: yellow;
 }
 
+/* Mensajes */
+.message-container {
+  padding: 10px;
+  margin: 10px 0;
+  background-color: #f9f9f9;
+  border-left: 4px solid #bb6351;
+  font-size: 16px;
+  color: #333;
+  border-radius: 5px;
+}
+
+.message-container.success {
+  border-left-color: #4caf50;
+}
+
+.message-container.error {
+  border-left-color: #f44336;
+}
+
+/* Botón de acciones */
+.actions-button {
+  background-color: #bb6351;
+  color: #fff;
+  font-size: 16px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 15px;
+}
+
+.actions-button:hover {
+  background-color: #9e4c38;
+}
+
+.actions-button:disabled {
+  background-color: #d3d3d3;
+  color: #666;
+  cursor: not-allowed;
+}
+
+/* Eventos */
+.cell-events-container {
+  padding: 10px;
+  margin-top: 15px;
+  background-color: #f1f1f1;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+}
+
+.cell-events-container h3 {
+  font-size: 18px;
+  color: #555;
+  margin-bottom: 8px;
+}
+
+.cell-event {
+  padding: 8px;
+  margin: 5px 0;
+  background-color: #ffffff;
+  border-left: 4px solid #bb6351;
+  border-radius: 4px;
+}
+
+.cell-event p {
+  margin: 2px 0;
+  font-size: 14px;
+  color: #333;
+}
+
+
+
 /* Wiki */
 .wiki {
   font-family: 'Arial', sans-serif;

@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { getBoardDetails } from './BoardServices';
-import { moveCharacter } from './BoardServices';
-import { getMatchDetails } from '../matches/MatchService';
+import { getBoardDetails, moveCharacter, executeActionsInTurn, getEventsForCell } from './BoardServices';
+import { getMatchDetails, nextPlayer } from '../matches/MatchService';
 import spriteX from '../../assets/imgs/X.jpg';
 import spriteEmpty from '../../assets/imgs/empty.png';
 import spriteD from '../../assets/imgs/D.jpg';
@@ -21,7 +20,13 @@ function Board() {
     const [boardType, setBoardType] = useState('');
     const [characters, setCharacters] = useState([]);
     const [currentCharacter, setCurrentCharacter] = useState(null);
-
+    const [selectedEvents, setSelectedEvents] = useState([]);
+    const [availableActions, setAvailableActions] = useState(0);
+    const [isActionPhase, setIsActionPhase] = useState(false);
+    const [messages, setMessages] = useState([]);
+    const [isTurnComplete, setIsTurnComplete] = useState(false);
+    const [cellEvents, setCellEvents] = useState([]);
+    const [characterTurn, setCharacterTurn] = useState(null);
 
     useEffect(() => {
         async function fetchBoard() {
@@ -38,6 +43,7 @@ function Board() {
                         char => char.id === matchResponse.match.characterTurn
                     );
                     setCurrentCharacter(characterInTurn);
+                    setCharacterTurn(matchResponse.match.characterTurn);
                 } else {
                     console.error("Error: Unable to fetch board or match details");
                 }
@@ -66,6 +72,10 @@ function Board() {
 
     const handleCellClick = async (cell) => {
         const parseMatchId = parseInt(matchId, 10);
+        if (currentCharacter.id !== characterTurn) {
+            alert("It's not your turn.");
+            return;
+        }
         if (['-', 'D', 'B'].includes(cell.type) && currentCharacter) {
             try {
                 const response = await moveCharacter(currentCharacter, parseMatchId, cell.x, cell.y);
@@ -76,6 +86,18 @@ function Board() {
                             char.id === updatedCharacter.id ? updatedCharacter : char
                         )
                     );
+                    setAvailableActions(updatedCharacter.actions);
+                    setIsActionPhase(true);
+
+                    const cellEventsResponse = await getEventsForCell(cell.id);
+                    if (cellEventsResponse.status === 'success') {
+                        setCellEvents(cellEventsResponse.events);
+                        setSelectedEvents(cellEventsResponse.events.map(event => event.id));
+
+                        if (cellEventsResponse.events.length === 0) {
+                            await handleEndTurn();
+                        }
+                    }
                 } else {
                     alert("Error: " + response.message);
                 }
@@ -90,6 +112,45 @@ function Board() {
             }
         }
     };
+
+    const executeActions = async () => {
+        try {
+            const parseMatchId = parseInt(matchId, 10);
+            const response = await executeActionsInTurn(parseMatchId, currentCharacter.id, selectedEvents);
+            if (response.status === 'success') {
+                setMessages(response.messages);
+                setSelectedEvents([]);
+                setIsTurnComplete(true);
+                setIsActionPhase(false);
+            } else {
+                alert("Error executing actions: " + response.message);
+            }
+        } catch (error) {
+            console.error("Error executing actions:", error);
+        }
+    };
+
+    const handleEndTurn = async () => {
+        alert("No events in cell. Turn will be passed automatically.");
+        setIsTurnComplete(true);
+        await nextPlayer(parseInt(matchId, 10));
+        setCurrentCharacter(null);
+        setIsActionPhase(false);
+        fetchBoard();
+    };
+
+    useEffect(() => {
+        if (isTurnComplete) {
+            alert("Turn complete.");
+            setIsTurnComplete(false);
+            setMessages([]);
+            nextPlayer(matchId).then(() => {
+                setCurrentCharacter(null);
+                setIsActionPhase(false);
+                fetchBoard();
+            });
+        }
+    }, [isTurnComplete, matchId]);
 
     const renderCell = (cell) => {
         const sprite = cellSprites[cell.type] || cellSprites['-'];
@@ -120,6 +181,29 @@ function Board() {
                 <h2 className="board-title">Map: {boardType}</h2>
                 <div className="board">
                     {cells.map((cell) => renderCell(cell))}
+                </div>
+                {isActionPhase && (
+                    <button className="actions-button" onClick={executeActions} disabled={!selectedEvents.length}>
+                        Execute Actions
+                    </button>
+                )}
+                <div className="cell-events-container">
+                    <h3>Events in this cell</h3>
+                    {cellEvents.length > 0 ? (
+                        cellEvents.map((event, index) => (
+                            <div key={index} className="cell-event">
+                                <p>Event: {event.name}</p>
+                                <p>Description: {event.description}</p>
+                            </div>
+                        ))
+                    ) : (
+                        <p>There are no events in this cell</p>
+                    )}
+                </div>
+                <div className="message-container">
+                    {messages.map((message, index) => (
+                        <div key={index} className="message">{message}</div>
+                    ))}
                 </div>
             </div>
         </div>
