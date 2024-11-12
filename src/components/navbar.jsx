@@ -4,13 +4,15 @@ import { Routes, Route, Link } from 'react-router-dom'
 import axios from 'axios';
 import { AuthContext } from './auth/AuthContext';
 import LogoutButton from './auth/logout';
+import parseJwt from './auth/AuthParser';
 
 function Navbar(){
   const {token} = useContext(AuthContext);
   const [msg, setMsg] = useState("");
+  const userId = parseJwt(token)?.sub;
   const config = {
     method: 'get',
-    url: `${import.meta.env.VITE_BACKEND_URL}/users/1/show`,
+    url: `${import.meta.env.VITE_BACKEND_URL}/users/${userId}/show`,
     headers: {
       'Authorization': `Bearer ${token}`,
     },
