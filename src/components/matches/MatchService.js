@@ -41,13 +41,22 @@ export async function nextTurn(match_id) {
 }
 
 // Funcion para avanzar al siguiente jugador
-export async function nextPlayer(match_id) {
-    const response = await fetch(`${BASE_URL}/matches/next_player`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ match_id })
-    });
-    return await response.json();
+export async function nextPlayer(matchId) {
+    try {
+        const response = await fetch(`${BASE_URL}/matches/next_player`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ match_id: matchId })
+        });
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || 'Failed to switch to the next player.');
+        }
+        return await response.json();
+    } catch (error) {
+        console.error('Error in nextPlayer:', error);
+        throw error;
+    }
 }
 
 // Funcion para finalizar una partida
