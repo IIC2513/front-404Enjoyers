@@ -1,11 +1,13 @@
 const BASE_URL = 'http://localhost:3000';
 
-export async function getBoardDetails(matchId) {
+export async function getBoardDetails(matchId, token) {
     try {
-        const response = await fetch(`${BASE_URL}/boards/${matchId}`);
-        if (!response.ok) {
-            throw new Error('Failed to fetch board details');
-        }
+        const response = await fetch(`${BASE_URL}/boards/${matchId}`, {
+            method: "GET",
+            headers: { "Content-Type": "application/json",
+                        "Authorization": `Bearer ${token}`
+             }
+    });
         return await response.json();
     } catch (error) {
         console.error('Error in getBoardDetails:', error);
@@ -13,11 +15,13 @@ export async function getBoardDetails(matchId) {
     }
 }
 
-export async function moveCharacter(character, matchId, x, y) {
+export async function moveCharacter(character, matchId, x, y, token) {
     try {
         const response = await fetch(`${BASE_URL}/boards/move`, {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: { "Content-Type": "application/json",
+                        "Authorization": `Bearer ${token}`
+             },
             body: JSON.stringify({
                 match_id: matchId,
                 char_id: character.id,
@@ -44,11 +48,13 @@ export async function moveCharacter(character, matchId, x, y) {
     }
 }
 
-export async function executeActionsInTurn(matchId, characterId, events) {
+export async function executeActionsInTurn(matchId, characterId, events, token) {
     try {
         const response = await fetch(`${BASE_URL}/boards/actions`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json',
+                        "Authorization": `Bearer ${token}`
+             },
             body: JSON.stringify({
                 match_id: matchId,
                 char_id: characterId,
@@ -68,9 +74,14 @@ export async function executeActionsInTurn(matchId, characterId, events) {
     }
 }
 
-export async function getEventsForCell(cellId) {
+export async function getEventsForCell(cellId, token) {
     try {
-        const response = await fetch(`${BASE_URL}/events/show/${cellId}`);
+        const response = await fetch(`${BASE_URL}/events/show/${cellId}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json',
+                            "Authorization": `Bearer ${token}`
+                 }
+    });
         if (!response.ok) {
             const errorData = await response.json();
             throw new Error(errorData.message || 'Failed to fetch events for cell.');
