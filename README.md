@@ -13,12 +13,31 @@ Si no has instalado las dependencias, utiliza el siguiente comando en consola
     yarn
 ```
 
+Recuerda crear un ```.env``` que contenga las siguientes variables de entorno
+```js
+    VITE_BACKEND_URL = backend_url
+```
+
 Luego, para iniciar la página localmente, utiliza el siguiente comando en consola
 ```console
     yarn dev
 ```
+Abre el link que se muestra en la consola.
+Además, este proyecto funciona en conjunto al backend, sigue los pasos de ejecución de [dicho repositorio](https://github.com/IIC2513/back-404Enjoyers)
 
-Por último, abre el link que se muestra en la consola
+## Conjunto de Pruebas Recomendado
+
+1. Puedes navegar sin sesión por las vistas de Guide, Wiki y About Us.
+2. Una vez iniciada la sesión puedes acceder a Play
+3. Puedes usar Create a Match para crear una nueva partida
+4. Puedes unirte a alguna partida de Waiting Matches apretando Join
+5. Puedes ir a la sala de espera clickeando una partida a la que pertenezcas
+6. Puedes elegir personaje en la sala de espera
+7. Si eres el creador, puedes empezar la partida
+8. Una vez la partida empezada, de nuevo en la pestaña de todas las partidas, puedes entrar al tablero del juego clickeando una partida en progreso
+9. Una vez en el tablero, puedes clickear la casilla a la que te quieras mover y el personaje se moverá a esta si es posible.
+10. En el apartado de abajo se encuentran los eventos de la celda en que has caído
+
 
 ## Documentos
 Los .pdf de las entregas se encuentran en ```docs```

@@ -43,7 +43,7 @@ function Register() {
     e.preventDefault();
     const isFormValid = checkFormValidity(); // Validar directamente
     if (isFormValid) {
-      navigate('/game');
+      navigate('/');
     }
   };
 
