@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { getBoardDetails, moveCharacter, executeActionsInTurn, getEventsForCell } from './BoardServices';
 import { getMatchDetails, nextPlayer } from '../matches/MatchService';
@@ -14,6 +14,7 @@ import spriteFrontdruid from '../../assets/imgs/druid/front.png';
 import spriteFrontElf from '../../assets/imgs/dwarf/front.png';
 import battleView from '../../views/battle';
 import '../../assets/styles/style.css';
+import { AuthContext } from '../auth/AuthContext';
 
 function Board() {
     const { matchId } = useParams();
@@ -28,14 +29,15 @@ function Board() {
     const [isTurnComplete, setIsTurnComplete] = useState(false);
     const [cellEvents, setCellEvents] = useState([]);
     const [characterTurn, setCharacterTurn] = useState(null);
+    const {token} = useContext(AuthContext);
     // Para el combate
     const [isInCombat, setIsInCombat] = useState(false);
 
     useEffect(() => {
         async function fetchBoard() {
             try {
-                const boardResponse = await getBoardDetails(matchId);
-                const matchResponse = await getMatchDetails(matchId);
+                const boardResponse = await getBoardDetails(matchId, token);
+                const matchResponse = await getMatchDetails(matchId, token);
 
                 if (boardResponse.status === 'success' && matchResponse.status === 'success') {
                     setCells(boardResponse.cells || []); 
@@ -81,7 +83,7 @@ function Board() {
         }
         if (['-', 'D', 'B'].includes(cell.type) && currentCharacter) {
             try {
-                const response = await moveCharacter(currentCharacter, parseMatchId, cell.x, cell.y);
+                const response = await moveCharacter(currentCharacter, parseMatchId, cell.x, cell.y, token);
                 if (response.status === 'success') {
                     const updatedCharacter = response.character;
                     setCharacters(prevCharacters =>
@@ -92,7 +94,7 @@ function Board() {
                     setAvailableActions(updatedCharacter.actions);
                     setIsActionPhase(true);
 
-                    const cellEventsResponse = await getEventsForCell(cell.id);
+                    const cellEventsResponse = await getEventsForCell(cell.id, token);
                     if (cellEventsResponse.status === 'success') {
                         setCellEvents(cellEventsResponse.events);
                         setSelectedEvents(cellEventsResponse.events.map(event => event.id));
@@ -124,7 +126,7 @@ function Board() {
     const executeActions = async () => {
         try {
             const parseMatchId = parseInt(matchId, 10);
-            const response = await executeActionsInTurn(parseMatchId, currentCharacter.id, selectedEvents);
+            const response = await executeActionsInTurn(parseMatchId, currentCharacter.id, selectedEvents, token);
             if (response.status === 'success') {
                 setMessages(response.messages);
                 setSelectedEvents([]);
@@ -162,7 +164,7 @@ function Board() {
 
     const renderCell = (cell) => {
         const sprite = cellSprites[cell.type] || cellSprites['-'];
-        const character = characters.find(char => char.cell[0] === cell.x && char.cell[1] === cell.y);
+        const character = characters.find(char => char.cellId === cell.id);
         const isClickable = cell.type === '-' || cell.type === 'D' || cell.type === 'B';
     
         return (
