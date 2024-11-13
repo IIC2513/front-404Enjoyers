@@ -169,7 +169,7 @@ function Wiki() {
                         <section id="loc8"><h4>Abyssal Rift</h4><p>The Abyssal Rift is the heart of darkness, a gaping chasm where the boundary between realms has been torn open. It is the source of the demonic invasion, emitting a constant stream of dark energy that corrupts everything it touches. Surrounding the rift, the ground is fractured, with jagged rocks and foul-smelling fumes that poison the very air. The rift pulses with an ominous red glow, as if it were a living entity feeding off the world itself. Those brave enough to approach its edge can hear the tortured whispers of the Abyss, a siren call luring mortals to their doom. The rift grows wider each day, threatening to consume the land entirely if it is not sealed.</p></section>
                     </section>
 
-                    <section id="artifacts-items">
+                    {/* <section id="artifacts-items">
                         <h2>Artifacts and Items</h2>
                         <section>
                             <h3>Legendary Weapons</h3>
@@ -187,7 +187,7 @@ function Wiki() {
                             <h3>Potions and Elixirs</h3>
                             <p>Items that provide powerful boosts to the user’s abilities.</p>
                         </section>
-                    </section>
+                    </section> */}
                 </main>
                 <footer>
                     <p>Explore the detailed lore and immerse yourself in the world of Lords of the Abyss.</p>

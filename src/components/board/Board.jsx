@@ -12,6 +12,7 @@ import spriteFrontMage from '../../assets/imgs/mage/front.png';
 import spriteFrontDwarf from '../../assets/imgs/dwarf/front.png';
 import spriteFrontdruid from '../../assets/imgs/druid/front.png';
 import spriteFrontElf from '../../assets/imgs/dwarf/front.png';
+import battleView from '../../views/battle';
 import '../../assets/styles/style.css';
 import { AuthContext } from '../auth/AuthContext';
 
@@ -29,6 +30,8 @@ function Board() {
     const [cellEvents, setCellEvents] = useState([]);
     const [characterTurn, setCharacterTurn] = useState(null);
     const {token} = useContext(AuthContext);
+    // Para el combate
+    const [isInCombat, setIsInCombat] = useState(false);
 
     useEffect(() => {
         async function fetchBoard() {
@@ -95,6 +98,11 @@ function Board() {
                     if (cellEventsResponse.status === 'success') {
                         setCellEvents(cellEventsResponse.events);
                         setSelectedEvents(cellEventsResponse.events.map(event => event.id));
+
+                        // Redirect to battle
+                        if (cellEventsResponse.events.some(event => event.type === 'combat')) {
+                            setIsInCombat(true);
+                        }
 
                         if (cellEventsResponse.events.length === 0) {
                             await handleEndTurn();
@@ -179,37 +187,44 @@ function Board() {
 
     return (
         <div className="board-container">
-            <div>
-                <h2 className="board-title">Map: {boardType}</h2>
-                <div className="board">
-                    {cells.map((cell) => renderCell(cell))}
-                </div>
-                {isActionPhase && (
-                    <button className="actions-button" onClick={executeActions} disabled={!selectedEvents.length}>
-                        Execute Actions
-                    </button>
-                )}
-                <div className="cell-events-container">
-                    <h3>Events in this cell</h3>
-                    {cellEvents.length > 0 ? (
-                        cellEvents.map((event, index) => (
-                            <div key={index} className="cell-event">
-                                <p>Event: {event.name}</p>
-                                <p>Description: {event.description}</p>
-                            </div>
-                        ))
-                    ) : (
-                        <p>There are no events in this cell</p>
-                    )}
-                </div>
-                <div className="message-container">
-                    {messages.map((message, index) => (
-                        <div key={index} className="message">{message}</div>
-                    ))}
-                </div>
-            </div>
+            {/* Si isInCombat es true, renderizar la vista de batalla */}
+            {isInCombat ? (
+                <battleView matchId={matchId} /> 
+            ) : (
+                <>
+                    <div>
+                        <h2 className="board-title">Map: {boardType}</h2>
+                        <div className="board">
+                            {cells.map((cell) => renderCell(cell))}
+                        </div>
+                        {isActionPhase && (
+                            <button className="actions-button" onClick={executeActions} disabled={!selectedEvents.length}>
+                                Execute Actions
+                            </button>
+                        )}
+                        <div className="cell-events-container">
+                            <h3>Events in this cell</h3>
+                            {cellEvents.length > 0 ? (
+                                cellEvents.map((event, index) => (
+                                    <div key={index} className="cell-event">
+                                        <p>Event: {event.name}</p>
+                                        <p>Description: {event.description}</p>
+                                    </div>
+                                ))
+                            ) : (
+                                <p>There are no events in this cell</p>
+                            )}
+                        </div>
+                        <div className="message-container">
+                            {messages.map((message, index) => (
+                                <div key={index} className="message">{message}</div>
+                            ))}
+                        </div>
+                    </div>
+                </>
+            )}
         </div>
-    );
+    );    
 }
 
 export default Board;
