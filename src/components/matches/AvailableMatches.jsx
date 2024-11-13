@@ -41,12 +41,13 @@ function AvailableMatches({ userId }) {
 
     // Manejar la unión a una partida
     const handleJoinMatch = async (match) => {
-        if (isUserInMatch(match)) {
-            alert(`You are already joined to the match with ID: ${match.id}`);
-            return;
-        }
+        // if (isUserInMatch(match)) {
+        //     alert(`You are already joined to the match with ID: ${match.id}`);
+        //     return;
+        // }
+        const index = matches.indexOf(match);
 
-        if (users.length >= 4) { // Cambio aquí: comparar con `>=` y no `=`
+        if (users[index].length >= 4) { // Cambio aquí: comparar con `>=` y no `=`
             alert(`The match with ID: ${match.id} is full.`);
             return;
         }
@@ -55,7 +56,7 @@ function AvailableMatches({ userId }) {
             setSelectedMatchId(match.id); // Solicitar contraseña si es privada
         } else {
             try {
-                const response = await joinMatch(match.id, userId);
+                const response = await joinMatch(match.id, userId, token);
                 if (response.status === 'success') {
                     alert(`You have joined de match with ID: ${match.id}`);
                 } else {
@@ -86,7 +87,7 @@ function AvailableMatches({ userId }) {
     const handleMatchClick = async (match) => {
         // Primero verifica si la partida existe en el backend antes de navegar
         try {
-            const matchDetails = await getMatchDetails(match.id);
+            const matchDetails = await getMatchDetails(match.id, token);
             if (matchDetails) {
                 console.log(`Navigating to match with ID: ${match.id}`);
                navigate(`/matches/${match.id}`);

@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { joinMatch } from './MatchService';
+import { AuthContext } from '../auth/AuthContext';
 
 function JoinMatch({ userId }) {
     const [matchId, setMatchId] = useState('');
+    const {token} = useContext(AuthContext);
 
     const handleJoinMatch = async () => {
-        const response = await joinMatch(Number(matchId), userId);
+        const response = await joinMatch(Number(matchId), userId, token);
         if (response.status === "success") {
             alert("You have joined the game!");
         } else {

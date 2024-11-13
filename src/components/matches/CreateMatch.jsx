@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { createMatch } from './MatchService';
+import { AuthContext } from '../auth/AuthContext';
 
 function CreateMatch({ userId }) {
     const [turns, setTurns] = useState(10);
     const [isPublic, setIsPublic] = useState(false);
+    const {token} = useContext(AuthContext);
 
     const handleCreateMatch = async () => {
-        const response = await createMatch(userId, turns, isPublic);
+        const response = await createMatch(userId, turns, isPublic, token);
         if (response.status === "success") {
             alert("Partida creada con éxito!");
         } else {

@@ -1,20 +1,30 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import CharacterSelection from '../components/matches/CharacterSelection';
 import MapSelection from '../components/matches/MapSelection';
-import { getMatchDetails, startMatch } from '../components/matches/MatchService';
+import { getMatchDetails, startMatch, getUsers } from '../components/matches/MatchService';
+import { AuthContext } from '../components/auth/AuthContext';
+import parseJwt from '../components/auth/AuthParser';
 
 function MatchDetail() {
     const { matchId } = useParams(); // Obtenemos `matchId` de la URL
     const [match, setMatch] = useState(null);
     const [message, setMessage] = useState('');
-    const userId = 1; // Dato harcodeado, debería ser el ID del usuario logueado
+    const [users, setUsers] = useState([])
+    const {token} = useContext(AuthContext);
+    const [isCreator, setCreator] = useState(false)
+    const userId = Number(parseJwt(token)?.sub);
 
     useEffect(() => {
         async function fetchMatchDetails() {
             try {
-                const response = await getMatchDetails(parseInt(matchId));
+                const response = await getMatchDetails(parseInt(matchId), token);
                 setMatch(response.match);
+                const usersResponse = await getUsers(parseInt(matchId), token);
+                setUsers(usersResponse.users);
+                if (usersResponse.users[0].id === userId){
+                    setCreator(true);
+                }
             } catch (error) {
                 console.error("Error fetching match details:", error);
                 setMessage("Error loading match details");
@@ -24,8 +34,8 @@ function MatchDetail() {
     }, [matchId]);
 
     const handleStartGame = async () => {
-        if (match.users[0] === userId) { // Solo el creador puede iniciar
-            const response = await startMatch(parseInt(matchId), match.selectedMap);
+        if (users[0].id === userId) { // Solo el creador puede iniciar
+            const response = await startMatch(parseInt(matchId), match.selectedMap, token);
             if (response.status === 'success') {
                 alert("Game successfully started!");
             } else {
@@ -47,11 +57,11 @@ function MatchDetail() {
             <CharacterSelection matchId={matchId} userId={userId} />
             
             {/* Selección de Mapa (solo para el creador) */}
-            {match.users[0] === userId && <MapSelection match={match} setMatch={setMatch} />}
+            {isCreator && <MapSelection match={match} setMatch={setMatch} />}
             
             {/* Botón de Iniciar Partida (solo para el creador) */}
-            {match.users[0] === userId && (
-                <button onClick={handleStartGame}>Iniciar Partida</button>
+            {isCreator && (
+                <button onClick={handleStartGame}>Start Match</button>
             )}
         </div>
     );
