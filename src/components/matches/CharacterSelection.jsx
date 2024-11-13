@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { setCharacter } from './MatchService';
+import { AuthContext } from '../auth/AuthContext';
 
 function CharacterSelection({ matchId, userId }) {
     const [charClass, setCharClass] = useState('');
     const [charName, setCharName] = useState('');
     const [message, setMessage] = useState('');
+    const {token} = useContext(AuthContext);
 
     const handleCharacterSelection = async () => {
-        const response = await setCharacter(parseInt(matchId), userId, charClass, charName);
+        const response = await setCharacter(parseInt(matchId), userId, charClass, charName, token);
         if (response.status === 'success') {
             alert("Character selected successfully.");
         } else {

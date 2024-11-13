@@ -13,13 +13,13 @@ export async function createMatch(user_id, turns, isPublic, token) {
 }
 
 // Funcion para unirse a una partida
-export async function joinMatch(match_id, user_id, password = null, token) {
+export async function joinMatch(match_id, user_id, token) {
     const response = await fetch(`${BASE_URL}/matches/join`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
          },
-        body: JSON.stringify({ match_id, user_id, password })
+        body: JSON.stringify({ match_id, user_id })
     });
     return await response.json();
 }
