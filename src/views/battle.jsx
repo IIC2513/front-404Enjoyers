@@ -24,4 +24,4 @@ function BattleView() {
     );
 }
 
-export default battleView;
+export default BattleView;
