@@ -303,7 +303,19 @@ nav li a:hover {
   background-color: #9e4c38;
 }
 
-.register #registerBtn, #loginBtn {
+.register #submitBtn {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  margin-top: 10px;
+  color: #ffffff;
+  background-color: #bb6351;
+  border: 1px solid #bb6351;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.register #loginBtn {
   width: 100%;
   padding: 12px;
   font-size: 16px;

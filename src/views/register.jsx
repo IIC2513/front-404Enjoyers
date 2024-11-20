@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 function Register() {
   const [username, setUsername] = useState('');
@@ -24,9 +25,9 @@ function Register() {
       allFieldsValid = false;
     }
 
-    const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
+    const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{5,}$/;
     if (!passwordRegex.test(password)) {
-      newErrors.push("Password must be alphanumeric and at least 8 characters long.");
+      newErrors.push("Password must be alphanumeric and at least 5 characters long.");
       allFieldsValid = false;
     }
 
@@ -42,8 +43,22 @@ function Register() {
   const handleSubmit = (e) => {
     e.preventDefault();
     const isFormValid = checkFormValidity(); // Validar directamente
-    if (isFormValid) {
-      navigate('/');
+    if (!isFormValid) {
+      alert("Please fix the highlighted errors.");
+    }
+    else{
+      axios.post(`${import.meta.env.VITE_BACKEND_URL}/auth/register`,
+        {
+          username,
+          email,
+          password
+        }
+      ).then((response) =>{
+        alert(`${response.data.message} Use these credentials in the login page.`);
+        navigate('/login');
+      }).catch((error) =>{
+        alert(error);
+      });
     }
   };
 
@@ -88,7 +103,7 @@ function Register() {
               required
             />
           </div>
-          <button type="submit">Submit</button>
+          <button id= "submitBtn" type="submit">Submit</button>
         </form>
         {errors.length > 0 && (
           <div id="errorMessages" style={{ color: 'red' }}>
