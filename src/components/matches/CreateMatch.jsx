@@ -19,20 +19,25 @@ function CreateMatch({ userId }) {
     return (
         <div>
             <h2>Create a Match</h2>
-            <input
-                type="number"
-                value={turns}
-                onChange={(e) => setTurns(e.target.value)}
-                placeholder="Número de turnos"
-            />
+            <div className='options'>
             <label>
+                <p>Rounds</p>
+                <input
+                    type="number"
+                    value={turns}
+                    onChange={(e) => setTurns(e.target.value)}
+                    placeholder="Número de turnos"
+                    />
+            </label>
+            <label>
+                <p>Public Match</p>
                 <input
                     type="checkbox"
                     checked={isPublic}
                     onChange={() => setIsPublic(!isPublic)}
-                />
-                Public Match
+                    />
             </label>
+            </div>
             <button onClick={handleCreateMatch}>Create</button>
         </div>
     );
