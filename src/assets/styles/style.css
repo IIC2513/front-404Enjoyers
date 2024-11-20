@@ -327,6 +327,95 @@ nav li a:hover {
   cursor: pointer;
 }
 
+/* MatchPage */
+
+.matches {
+  background-color:  rgba(248, 242, 233, 0.759);
+  font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.matches .card {
+  padding: 4%;
+}
+
+/* Styles for the container */
+.matches .card {
+  min-width: 500px;
+  margin: 50px auto;
+  padding: 20px;
+  background: #e8bbb1;
+  border: 2px solid #bb6351;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
+}
+
+/* Heading styles */
+.matches h2 {
+  color: #d84315; /* Deep orange text */
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Input fields */
+.matches input[type="number"], 
+input[type="checkbox"] {
+  margin: 15px;
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ff7043; /* Orange border */
+  border-radius: 5px;
+  outline: none;
+  width: calc(100% - 22px); /* Adjust for padding and border */
+  box-sizing: border-box;
+}
+
+/* Checkbox styles */
+.matches label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 20px;
+  color: #bf360c; /* Burnt orange text */
+  font-weight: bold;
+}
+
+/* Button styles */
+.matches button {
+  width: 100%;
+  padding: 12px 20px;
+  font-size: 1rem;
+  color: #ffffff; /* White text */
+  background: #ff5722; /* Vibrant reddish-orange */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.matches button:hover {
+  background: #e64a19; /* Darker orange for hover */
+}
+
+/* Placeholder text */
+.matches input::placeholder {
+  color: #ffab91; /* Lighter orange */
+}
+
+/* Adding some space between the input and the button */
+.matches input[type="number"] {
+  margin-bottom: 15px;
+}
+
+.matches .options {
+  display: flex;
+  flex-direction: row;
+}
+
+
 /* Tablero */
 
 .board-container {
