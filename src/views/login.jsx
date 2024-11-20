@@ -26,9 +26,9 @@ function Login() {
     }
 
     // Password validation (alphanumeric and at least 4 characters)
-    const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{4,}$/;
+    const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{5,}$/;
     if (!passwordRegex.test(password)) {
-      newErrors.push("Password must be alphanumeric and at least 8 characters long.");
+      newErrors.push("Password must be alphanumeric and at least 5 characters long.");
       allFieldsValid = false;
     }
 
