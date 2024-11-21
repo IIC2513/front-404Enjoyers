@@ -465,6 +465,10 @@ input[type="checkbox"] {
   cursor: pointer;
 }
 
+.actions .playBtn {
+  background-color: #ffab3c;
+}
+
 .actions button:disabled {
   background-color: #ccc;
   cursor: not-allowed;
