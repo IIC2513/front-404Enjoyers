@@ -12,12 +12,17 @@ function MatchPage() {
     const userId = parseJwt(token)?.sub;
 
     return (
-        <div>
+        <div className='matches'>
             <h1>Matches Management</h1>
-            <CreateMatch userId={userId} />
-            <JoinMatch userId={userId} />
-            <AvailableMatches userId={userId}/>
-            <AvailableUserMatches userId={userId} />
+            <div className='card'>
+                <CreateMatch userId={userId}/>
+            </div>
+            <div className='card'>
+                <AvailableMatches userId={userId}/>
+            </div>
+            <div className='card'>
+                <AvailableUserMatches userId={userId} />
+            </div>
         </div>
     );
 }
