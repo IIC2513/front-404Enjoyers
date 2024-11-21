@@ -599,6 +599,8 @@ input[type="checkbox"] {
   background-color: #ffffff;
   border-left: 4px solid #bb6351;
   border-radius: 4px;
+  display: flex;
+  flex-direction: row;
 }
 
 .cell-event p {
