@@ -11,10 +11,11 @@ import spriteFrontArcher from '../../assets/imgs/archer/front.png';
 import spriteFrontMage from '../../assets/imgs/mage/front.png';
 import spriteFrontDwarf from '../../assets/imgs/dwarf/front.png';
 import spriteFrontdruid from '../../assets/imgs/druid/front.png';
-import spriteFrontElf from '../../assets/imgs/dwarf/front.png';
+import spriteFrontElf from '../../assets/imgs/elf/front.png';
 import battleView from '../../views/battle';
 import '../../assets/styles/style.css';
 import { AuthContext } from '../auth/AuthContext';
+import parseJwt from '../auth/AuthParser';
 
 function Board() {
     const { matchId } = useParams();
@@ -30,6 +31,7 @@ function Board() {
     const [cellEvents, setCellEvents] = useState([]);
     const [characterTurn, setCharacterTurn] = useState(null);
     const {token} = useContext(AuthContext);
+    const userId = Number(parseJwt(token)?.sub);
     // Para el combate
     const [isInCombat, setIsInCombat] = useState(false);
 
@@ -57,7 +59,7 @@ function Board() {
             }
         }
         fetchBoard();
-    }, [matchId]);
+    }, [matchId, selectedEvents]);
 
     const cellSprites = {
         'X': spriteX,
@@ -77,36 +79,36 @@ function Board() {
 
     const handleCellClick = async (cell) => {
         const parseMatchId = parseInt(matchId, 10);
-        if (currentCharacter.id !== characterTurn) {
-            alert("It's not your turn.");
+        if (currentCharacter?.userId !== userId) {
+            alert(`It's not your turn. You are ${characters.find(c=> c.userId === userId)?.name}`);
             return;
         }
         if (['-', 'D', 'B'].includes(cell.type) && currentCharacter) {
             try {
                 const response = await moveCharacter(currentCharacter, parseMatchId, cell.x, cell.y, token);
                 if (response.status === 'success') {
+                    alert(response.message);
                     const updatedCharacter = response.character;
                     setCharacters(prevCharacters =>
                         prevCharacters.map(char =>
                             char.id === updatedCharacter.id ? updatedCharacter : char
                         )
                     );
-                    setAvailableActions(updatedCharacter.actions);
+                    //setAvailableActions(updatedCharacter.actions);
                     setIsActionPhase(true);
 
                     const cellEventsResponse = await getEventsForCell(cell.id, token);
                     if (cellEventsResponse.status === 'success') {
                         setCellEvents(cellEventsResponse.events);
-                        setSelectedEvents(cellEventsResponse.events.map(event => event.id));
 
                         // Redirect to battle
-                        if (cellEventsResponse.events.some(event => event.type === 'combat')) {
-                            setIsInCombat(true);
-                        }
+                        // if (cellEventsResponse.events.some(event => event.type === 'combat')) {
+                        //     setIsInCombat(true);
+                        // }
 
-                        if (cellEventsResponse.events.length === 0) {
-                            await handleEndTurn();
-                        }
+                        // if (cellEventsResponse.events.length === 0) {
+                        //     await handleEndTurn();
+                        // }
                     }
                 } else {
                     alert("Error: " + response.message);
@@ -121,6 +123,18 @@ function Board() {
                 }
             }
         }
+    };
+
+    const handleEventCheck = async (event) => {
+        const currentEvents = selectedEvents;
+        if (currentEvents.includes(event.id)){
+            currentEvents.pop(currentEvents.indexOf(event.id));
+        }
+        else{
+            currentEvents.push(event.id);
+        }
+        setSelectedEvents(currentEvents);
+        console.log(currentEvents);
     };
 
     const executeActions = async () => {
@@ -140,25 +154,11 @@ function Board() {
         }
     };
 
-    const handleEndTurn = async () => {
-        alert("No events in cell. Turn will be passed automatically.");
-        setIsTurnComplete(true);
-        await nextPlayer(parseInt(matchId, 10));
-        setCurrentCharacter(null);
-        setIsActionPhase(false);
-        fetchBoard();
-    };
-
     useEffect(() => {
         if (isTurnComplete) {
             alert("Turn complete.");
             setIsTurnComplete(false);
             setMessages([]);
-            nextPlayer(matchId).then(() => {
-                setCurrentCharacter(null);
-                setIsActionPhase(false);
-                fetchBoard();
-            });
         }
     }, [isTurnComplete, matchId]);
 
@@ -194,21 +194,27 @@ function Board() {
                 <>
                     <div>
                         <h2 className="board-title">Map: {boardType}</h2>
+                        <h3>
+                            Current turn: {currentCharacter?.name}
+                            {(currentCharacter?.userId === userId)? (<> (You)</>):<></>}
+                        </h3>
+                        <h3>ActionPhase {isActionPhase? "Yes":"No"}</h3>
                         <div className="board">
                             {cells.map((cell) => renderCell(cell))}
                         </div>
-                        {isActionPhase && (
-                            <button className="actions-button" onClick={executeActions} disabled={!selectedEvents.length}>
-                                Execute Actions
-                            </button>
-                        )}
+                        <button className="actions-button" onClick={executeActions} disabled={!isActionPhase}>
+                            Execute Actions
+                        </button>
                         <div className="cell-events-container">
                             <h3>Events in this cell</h3>
                             {cellEvents.length > 0 ? (
                                 cellEvents.map((event, index) => (
                                     <div key={index} className="cell-event">
                                         <p>Event: {event.name}</p>
-                                        <p>Description: {event.description}</p>
+                                        <input 
+                                            type="checkbox"
+                                            onChange={() => handleEventCheck(event)}
+                                        />
                                     </div>
                                 ))
                             ) : (

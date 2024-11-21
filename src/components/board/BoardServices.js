@@ -75,20 +75,11 @@ export async function executeActionsInTurn(matchId, characterId, events, token) 
 }
 
 export async function getEventsForCell(cellId, token) {
-    try {
-        const response = await fetch(`${BASE_URL}/events/show/${cellId}`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json',
-                            "Authorization": `Bearer ${token}`
-                 }
+    const response = await fetch(`${BASE_URL}/events/show/${cellId}`, {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json',
+                        "Authorization": `Bearer ${token}`
+                }
     });
-        if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.message || 'Failed to fetch events for cell.');
-        }
-        return await response.json();
-    } catch (error) {
-        console.error('Error in getEventsForCell:', error);
-        throw error;
-    }
+    return await response.json();
 }
