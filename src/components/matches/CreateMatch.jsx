@@ -21,7 +21,7 @@ function CreateMatch({ userId }) {
             <h2>Create a Match</h2>
             <div className='options'>
             <label>
-                <p>Rounds</p>
+                <p>Turns</p>
                 <input
                     type="number"
                     value={turns}

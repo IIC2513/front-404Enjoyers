@@ -6,8 +6,8 @@ import { AuthContext } from '../auth/AuthContext';
 function AvailableMatches({ userId }) {
     const [matches, setMatches] = useState([]);
     const [users, setUsers] = useState([])
-    const [selectedMatchId, setSelectedMatchId] = useState(null);
-    const [password, setPassword] = useState('');
+    const [joinStatus, setJoin] = useState(false);
+    const [viewStatus, setView] = useState(true);
     const navigate = useNavigate();
     const {token} = useContext(AuthContext);
 
@@ -34,18 +34,35 @@ function AvailableMatches({ userId }) {
         fetchMatches();
     }, []);
 
-    // Función para verificar si el usuario ya está en la partida
-    const isUserInMatch = (match) => {
-        return match.users.some(user => user.id === userId);
+    // Función para verificar si usuario puede entrar a partida
+    const isJoinable = (index) => {
+        if (!users[index]){
+            return false;
+        }
+        const usersId = users[index].map(user => user.id);
+        const inMatch = usersId.includes(Number(userId));
+        if (inMatch){
+            return false;
+        }
+        return true;
     };
 
+    // Función para verificar si el usuario ya está en la partida
+    const isUserInMatch = (index) => {
+        if (!users[index]){
+            return false;
+        }
+        const usersId = users[index].map(user => user.id);
+        return usersId.includes(Number(userId));
+    };
+
+
     // Manejar la unión a una partida
-    const handleJoinMatch = async (match) => {
-        // if (isUserInMatch(match)) {
-        //     alert(`You are already joined to the match with ID: ${match.id}`);
-        //     return;
-        // }
-        const index = matches.indexOf(match);
+    const handleJoinMatch = async (match, index) => {
+        if (isUserInMatch(index)) {
+            alert(`You already have joined match with ID: ${match.id}`);
+            return;
+        }
 
         if (users[index].length >= 4) { // Cambio aquí: comparar con `>=` y no `=`
             alert(`The match with ID: ${match.id} is full.`);
@@ -68,24 +85,7 @@ function AvailableMatches({ userId }) {
         }
     };
 
-    // Manejar la unión con contraseña
-    const handleJoinWithPassword = async () => {
-        try {
-            const response = await joinMatch(selectedMatchId, userId, password);
-            if (response.status === 'success') {
-                alert(`You have joined the match with ID: ${selectedMatchId}`);
-                setSelectedMatchId(null);
-                setPassword('');
-            } else {
-                alert(`Error when joining the match: ${response.message}`);
-            }
-        } catch (error) {
-            alert("Error al Error when trying to join the the match: " + error.message);
-        }
-    };
-
     const handleMatchClick = async (match) => {
-        // Primero verifica si la partida existe en el backend antes de navegar
         try {
             const matchDetails = await getMatchDetails(match.id, token);
             if (matchDetails) {
@@ -100,41 +100,49 @@ function AvailableMatches({ userId }) {
     };
 
     return (
-        <div>
-            <h2>Waiting Matches</h2>
-            <ul>
-                {matches.map((match, index) => (
-                    <li 
-                        key={match.id} 
-                        onClick={() => handleMatchClick(match)} // Redirige a la página de detalles
-                        style={{ cursor: 'pointer', color: match.public ? 'black' : 'red' }}
+        <div className="matches-container">
+        <h2>Waiting Matches</h2>
+        <div className="matches-table">
+            <div className="matches-header">
+            <div>Match ID</div>
+            <div>Public</div>
+            <div>Players</div>
+            <div>Turns</div>
+            <div>Actions</div>
+            </div>
+            {matches.map((match, index) => (
+            <div key={match.id} className="matches-row">
+                <div>{match.id}</div>
+                <div>{match.public ? 'Yes' : 'No'}</div>
+                <div>{users[index]?.length}/4</div>
+                <div>{match.turns}</div>
+                <div className="actions">
+                {match.status === 'waiting' && (
+                    <>
+                    <button
+                        onClick={(e) => {
+                        e.stopPropagation();
+                        handleJoinMatch(match, index);
+                        }}
+                        disabled={!isJoinable(index)}
                     >
-                        ID: {match.id}, Public: {match.public ? 'yes' : 'No'}, 
-                        Players: {users[index]?.length}/4
-                        {match.status === 'waiting' && (
-                            <button onClick={(e) => {
-                                e.stopPropagation(); // Evita la navegación al hacer clic en el botón
-                                handleJoinMatch(match);
-                            }}>Join</button>
-                        )}
-                    </li>
-                ))}
-            </ul>
-
-            {/* Formulario de contraseña para partidas privadas */}
-            {selectedMatchId && (
-                <div>
-                    <h3>Enter the password to join the match {selectedMatchId}</h3>
-                    <input
-                        type="password"
-                        placeholder="Password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
-                    <button onClick={handleJoinWithPassword}>Join</button>
-                    <button onClick={() => setSelectedMatchId(null)}>Cancel</button>
+                        Join
+                    </button>
+                    <button
+                        onClick={(e) => {
+                        e.stopPropagation();
+                        handleMatchClick(match);
+                        }}
+                        disabled={!isUserInMatch(index)}
+                    >
+                        View
+                    </button>
+                    </>
+                )}
                 </div>
-            )}
+            </div>
+            ))}
+        </div>
         </div>
     );
 }
