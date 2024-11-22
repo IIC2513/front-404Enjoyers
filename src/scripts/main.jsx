@@ -13,6 +13,9 @@ import MatchPage from '../views/match.jsx';
 import MatchDetail from '../views/matchdetails.jsx';
 import GameBoard from '../views/GameBoard.jsx';
 import AuthProvider from '../components/auth/AuthProvider.jsx';
+import Inventory from '../views/inventory';
+import Stats from '../views/stats.jsx';
+import Scoreboard from '../views/scoreboard.jsx';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -30,6 +33,9 @@ createRoot(document.getElementById('root')).render(
           <Route path="/matches" element={<MatchPage />} />
           <Route path="/matches/:matchId" element={<MatchDetail />} />
           <Route path="/boards/:matchId" element={<GameBoard />} />
+          <Route path="/inventories/:inventoryId" element={<Inventory />} />
+          <Route path="/stats/:characterId" element={<Stats />} />
+          <Route path="/scoreboard/:matchId" element={<Scoreboard />} />
       </Routes>
     </Router>
     </AuthProvider>

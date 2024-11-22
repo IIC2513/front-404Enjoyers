@@ -537,6 +537,13 @@ input[type="checkbox"] {
   border-color: yellow;
 }
 
+.board-container .other {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  padding: 1%;
+}
+
 /* Mensajes */
 .message-container {
   padding: 10px;
@@ -599,6 +606,8 @@ input[type="checkbox"] {
   background-color: #ffffff;
   border-left: 4px solid #bb6351;
   border-radius: 4px;
+  display: flex;
+  flex-direction: row;
 }
 
 .cell-event p {
