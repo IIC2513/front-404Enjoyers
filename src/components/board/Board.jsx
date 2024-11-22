@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { getBoardDetails, moveCharacter, executeActionsInTurn, getEventsForCell } from './BoardServices';
 import { getMatchDetails, nextPlayer } from '../matches/MatchService';
 import spriteX from '../../assets/imgs/X.jpg';
@@ -32,6 +32,7 @@ function Board() {
     const [characterTurn, setCharacterTurn] = useState(null);
     const {token} = useContext(AuthContext);
     const userId = Number(parseJwt(token)?.sub);
+    const navigate = useNavigate();
     // Para el combate
     const [isInCombat, setIsInCombat] = useState(false);
 
@@ -51,6 +52,10 @@ function Board() {
                     );
                     setCurrentCharacter(characterInTurn);
                     setCharacterTurn(matchResponse.match.characterTurn);
+                    const cellEventsResponse = await getEventsForCell(characterInTurn.cellId, token);
+                    if (cellEventsResponse.status === 'success') {
+                            setCellEvents(cellEventsResponse.events);
+                    }
                 } else {
                     console.error("Error: Unable to fetch board or match details");
                 }
@@ -59,7 +64,12 @@ function Board() {
             }
         }
         fetchBoard();
-    }, [matchId, selectedEvents]);
+    }, [matchId]);
+
+    // Para debuggear
+    // useEffect(() => {
+    //     console.log("Selected events changed:", selectedEvents);
+    //   }, [selectedEvents]);
 
     const cellSprites = {
         'X': spriteX,
@@ -83,11 +93,11 @@ function Board() {
             alert(`It's not your turn. You are ${characters.find(c=> c.userId === userId)?.name}`);
             return;
         }
-        if (['-', 'D', 'B'].includes(cell.type) && currentCharacter) {
+        if (['-', 'B'].includes(cell.type) && currentCharacter) {
             try {
                 const response = await moveCharacter(currentCharacter, parseMatchId, cell.x, cell.y, token);
                 if (response.status === 'success') {
-                    alert(response.message);
+                    setMessages([response.message]);
                     const updatedCharacter = response.character;
                     setCharacters(prevCharacters =>
                         prevCharacters.map(char =>
@@ -125,17 +135,15 @@ function Board() {
         }
     };
 
-    const handleEventCheck = async (event) => {
-        const currentEvents = selectedEvents;
-        if (currentEvents.includes(event.id)){
-            currentEvents.pop(currentEvents.indexOf(event.id));
-        }
-        else{
-            currentEvents.push(event.id);
-        }
-        setSelectedEvents(currentEvents);
-        console.log(currentEvents);
-    };
+    const handleEventCheck = (event) => {
+        setSelectedEvents((prevSelectedEvents) => {
+          if (prevSelectedEvents.includes(event.id)) {
+            return prevSelectedEvents.filter((id) => id !== event.id);
+          } else {
+            return [...prevSelectedEvents, event.id];
+          }
+        });
+      };
 
     const executeActions = async () => {
         try {
@@ -156,9 +164,8 @@ function Board() {
 
     useEffect(() => {
         if (isTurnComplete) {
-            alert("Turn complete.");
+            alert("Turn completed.");
             setIsTurnComplete(false);
-            setMessages([]);
         }
     }, [isTurnComplete, matchId]);
 
@@ -185,6 +192,31 @@ function Board() {
         );
     };
 
+    const handleInventoryClick = async (inventoryId) => {
+
+        try {
+            navigate(`/inventories/${inventoryId}`)
+        } catch (error) {
+            alert("Error while getting inventory: " + error.message);
+        }
+    };
+    const handleStatsClick = async (characterId) => {
+
+        try {
+            navigate(`/stats/${characterId}`)
+        } catch (error) {
+            alert("Error while getting stats: " + error.message);
+        }
+    };
+    const handleScoreboardClick = async (matchId) => {
+
+        try {
+            navigate(`/scoreboard/${matchId}`)
+        } catch (error) {
+            alert("Error while getting scoreboard: " + error.message);
+        }
+    };
+
     return (
         <div className="board-container">
             {/* Si isInCombat es true, renderizar la vista de batalla */}
@@ -198,7 +230,37 @@ function Board() {
                             Current turn: {currentCharacter?.name}
                             {(currentCharacter?.userId === userId)? (<> (You)</>):<></>}
                         </h3>
-                        <h3>ActionPhase {isActionPhase? "Yes":"No"}</h3>
+                        <div className="message-container">
+                            {messages.map((message, index) => (
+                        <div key={index} className="message">{message}</div>
+                            ))}
+                        </div>
+                        <div className='other'>
+                            <button 
+                                className='actions-button'
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleInventoryClick(characters.find(c=> c.userId === userId)?.inventoryId);
+                                }}>
+                                Open Inventory
+                            </button>
+                            <button 
+                                className='actions-button'
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleStatsClick(characters.find(c=> c.userId === userId)?.id);
+                                }}>
+                                Show Stats
+                            </button>
+                            <button 
+                                className='actions-button'
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleScoreboardClick(matchId);
+                                }}>
+                                Show Scoreboard
+                            </button>
+                        </div>
                         <div className="board">
                             {cells.map((cell) => renderCell(cell))}
                         </div>
@@ -220,11 +282,6 @@ function Board() {
                             ) : (
                                 <p>There are no events in this cell</p>
                             )}
-                        </div>
-                        <div className="message-container">
-                            {messages.map((message, index) => (
-                                <div key={index} className="message">{message}</div>
-                            ))}
                         </div>
                     </div>
                 </>
