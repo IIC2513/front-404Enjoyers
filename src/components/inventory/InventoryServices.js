@@ -36,3 +36,13 @@ export async function useConsumable(characterId, itemId, token) {
     });
     return await response.json();
 }
+
+export async function getCharacter(characterId, token) {
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/characters/show/${characterId}`, {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json',
+                        "Authorization": `Bearer ${token}`
+                }
+    });
+    return await response.json();
+}
