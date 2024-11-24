@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { getUserMatches, getUsers} from './MatchService';
+import { getUserMatches, getUsers, getMatchDetails} from './MatchService';
 import { getBoardDetails } from '../board/BoardServices';
 import { AuthContext } from '../auth/AuthContext';
 import { useNavigate } from 'react-router-dom';
