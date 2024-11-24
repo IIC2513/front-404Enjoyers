@@ -84,7 +84,6 @@ const handleUse = async (itemId) => {
         {consumable.quantity && <p>Quantity: {consumable.quantity}</p>}
         {consumable.health_points && <p>Health Points: {consumable.health_points}</p>}
         {consumable.property && <p>Property: {consumable.property}</p>}
-        {consumable.hability && <p>Ability: {consumable.hability}</p>}
         <button 
           onClick={() => {
             handleUse(consumable.id)
