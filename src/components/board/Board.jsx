@@ -36,40 +36,36 @@ function Board() {
     // Para el combate
     const [isInCombat, setIsInCombat] = useState(false);
 
-    useEffect(() => {
-        async function fetchBoard() {
-            try {
-                const boardResponse = await getBoardDetails(matchId, token);
-                const matchResponse = await getMatchDetails(matchId, token);
+    async function fetchBoard() {
+        try {
+            const boardResponse = await getBoardDetails(matchId, token);
+            const matchResponse = await getMatchDetails(matchId, token);
 
-                if (boardResponse.status === 'success' && matchResponse.status === 'success') {
-                    setCells(boardResponse.cells || []); 
-                    setBoardType(boardResponse.board.type || '');
-                    setCharacters(boardResponse.characters || []);
+            if (boardResponse.status === 'success' && matchResponse.status === 'success') {
+                setCells(boardResponse.cells || []); 
+                setBoardType(boardResponse.board.type || '');
+                setCharacters(boardResponse.characters || []);
 
-                    const characterInTurn = boardResponse.characters.find(
-                        char => char.id === matchResponse.match.characterTurn
-                    );
-                    setCurrentCharacter(characterInTurn);
-                    setCharacterTurn(matchResponse.match.characterTurn);
-                    const cellEventsResponse = await getEventsForCell(characterInTurn.cellId, token);
-                    if (cellEventsResponse.status === 'success') {
-                            setCellEvents(cellEventsResponse.events);
-                    }
-                } else {
-                    console.error("Error: Unable to fetch board or match details");
+                const characterInTurn = boardResponse.characters.find(
+                    char => char.id === matchResponse.match.characterTurn
+                );
+                setCurrentCharacter(characterInTurn);
+                setCharacterTurn(matchResponse.match.characterTurn);
+                const cellEventsResponse = await getEventsForCell(characterInTurn.cellId, token);
+                if (cellEventsResponse.status === 'success') {
+                        setCellEvents(cellEventsResponse.events);
                 }
-            } catch (error) {
-                console.error('Error fetching board or match details:', error);
+            } else {
+                console.error("Error: Unable to fetch board or match details");
             }
+        } catch (error) {
+            console.error('Error fetching board or match details:', error);
         }
+    }
+
+    useEffect(() => {
         fetchBoard();
     }, [matchId]);
-
-    // Para debuggear
-    // useEffect(() => {
-    //     console.log("Selected events changed:", selectedEvents);
-    //   }, [selectedEvents]);
 
     const cellSprites = {
         'X': spriteX,
@@ -154,6 +150,7 @@ function Board() {
                 setSelectedEvents([]);
                 setIsTurnComplete(true);
                 setIsActionPhase(false);
+                fetchBoard();
             } else {
                 alert("Error executing actions: " + response.message);
             }

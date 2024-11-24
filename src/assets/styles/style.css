@@ -940,3 +940,75 @@ footer {
 .combat-actions button:hover {
   background-color: #666;
 }
+
+/* Inventory */
+
+.inventory {
+  margin: 2%;
+}
+
+.inventory h1 {
+  text-align: center;
+  margin-bottom: 1em;
+}
+
+.inventory .items {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Two equal columns */
+  gap: 2%; /* Space between columns */
+}
+
+.inventory .weapons, 
+.inventory .consumables {
+  display: flex;
+  flex-direction: column;
+  padding: 2%;
+  border-radius: 8px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+.inventory .weapons {
+  background-color: #a8855f;
+  color: #151515;
+}
+
+.inventory .consumables {
+  background-color: #bde4e6;
+  color: #151515;
+}
+
+.inventory .weapon, 
+.inventory .consumable {
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(255, 255, 255, 0.506); /* Slight transparency */
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 1em;
+  margin-bottom: 1em;
+}
+
+.inventory .weapon h3, 
+.inventory .consumable h3 {
+  margin-bottom: 0.5em;
+}
+
+.inventory button {
+  align-self: flex-start; /* Align buttons to the left */
+  padding: 0.5em 1em;
+  font-size: 1em;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.inventory button:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+}
+
+.inventory .weapon p,
+.inventory .consumable p {
+  margin: 0.3em 0;
+}
