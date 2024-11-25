@@ -50,6 +50,11 @@ export async function moveCharacter(character, matchId, x, y, token) {
 
 export async function executeActionsInTurn(matchId, characterId, events, token) {
     try {
+        console.log({
+            match_id: matchId,
+            char_id: characterId,
+            eventsArr: events,
+          });
         const response = await fetch(`${BASE_URL}/boards/actions`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json',
@@ -77,7 +82,7 @@ export async function executeActionsInTurn(matchId, characterId, events, token) 
 export async function getEventsForCell(cellId, token) {
     try {
         const response = await fetch(`${BASE_URL}/events/show/${cellId}`, {
-                method: 'POST',
+                method: 'GET',
                 headers: { 'Content-Type': 'application/json',
                             "Authorization": `Bearer ${token}`
                  }
