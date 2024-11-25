@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { getBoardDetails, moveCharacter, executeActionsInTurn, getEventsForCell } from './BoardServices';
+import { getBoardDetails, moveCharacter, executeActionsInTurn, getEventsForCell, getEventsForMatch } from './BoardServices';
 import { getMatchDetails, nextPlayer } from '../matches/MatchService';
 import spriteX from '../../assets/imgs/X.jpg';
 import spriteEmpty from '../../assets/imgs/empty.png';
@@ -12,6 +12,15 @@ import spriteFrontMage from '../../assets/imgs/mage/front.png';
 import spriteFrontDwarf from '../../assets/imgs/dwarf/front.png';
 import spriteFrontdruid from '../../assets/imgs/druid/front.png';
 import spriteFrontElf from '../../assets/imgs/elf/front.png';
+import spriteSkeletonGenericEnemy from '../../assets/imgs/skeleton/skeleton-idle.png';
+import spriteAxe from '../../assets/imgs/weapons/axe.png';
+import spriteBow from '../../assets/imgs/weapons/bow.png';
+import spriteStaff from '../../assets/imgs/weapons/staff.png';
+import spriteSword from '../../assets/imgs/weapons/sword.png';
+import spritePotion from '../../assets/imgs/items/potion.png';
+import spriteChest from '../../assets/imgs/items/Chest.png';
+import spriteDoorKey from '../../assets/imgs/items/Door Key.png';
+import spriteChestKey from '../../assets/imgs/items/chest_key.png';
 import battleView from '../../views/battle';
 import '../../assets/styles/style.css';
 import { AuthContext } from '../auth/AuthContext';
@@ -35,13 +44,16 @@ function Board() {
     const navigate = useNavigate();
     // Para el combate
     const [isInCombat, setIsInCombat] = useState(false);
+    // Sprites
+    const [eventSprites, setEventSprites] = useState({});
 
     async function fetchBoard() {
         try {
             const boardResponse = await getBoardDetails(matchId, token);
             const matchResponse = await getMatchDetails(matchId, token);
+            const eventsResponse = await getEventsForMatch(matchId, token);
 
-            if (boardResponse.status === 'success' && matchResponse.status === 'success') {
+            if (boardResponse.status === 'success' && matchResponse.status === 'success' && eventsResponse.status === 'success') {
                 setCells(boardResponse.cells || []); 
                 setBoardType(boardResponse.board.type || '');
                 setCharacters(boardResponse.characters || []);
@@ -51,10 +63,8 @@ function Board() {
                 );
                 setCurrentCharacter(characterInTurn);
                 setCharacterTurn(matchResponse.match.characterTurn);
-                const cellEventsResponse = await getEventsForCell(characterInTurn.cellId, token);
-                if (cellEventsResponse.status === 'success') {
-                        setCellEvents(cellEventsResponse.events);
-                }
+
+                assignSpritesToCells(eventsResponse.events);
             } else {
                 console.error("Error: Unable to fetch board or match details");
             }
@@ -159,6 +169,79 @@ function Board() {
         }
     };
 
+    const assignSpritesToCells = (eventsByCell) => {
+        const newEventSprites = {};
+    
+        Object.entries(eventsByCell).forEach(([cellId, events]) => {
+            // Buscar el evento específico "visibleEnemy"
+            const visibleEnemyEvent = events.find(event => event.name === 'visibleEnemy');
+            const axeEvent = events.find(event => event.name === 'Axe');
+            const bowEvent = events.find(event => event.name === 'Bow');
+            const staffEvent = events.find(event => event.name === 'Staff');
+            const swordEvent = events.find(event => event.name === 'Sword');
+            const potionEvent = events.find(event => event.name === 'Potions');
+            const chestEvent = events.find(event => event.name === 'lockedChest');
+            const doorKeyEvent = events.find(event => event.name === 'Door Key');
+            const chestKeyEvent = events.find(event => event.name === 'Chest Key');
+            if (visibleEnemyEvent) {
+                newEventSprites[cellId] = {
+                    image: spriteSkeletonGenericEnemy,
+                    name: 'Skeleton',
+                };
+            }
+            if (axeEvent) {
+                newEventSprites[cellId] = {
+                    image: spriteAxe,
+                    name: 'Axe',
+                };
+            }
+            if (bowEvent) {
+                newEventSprites[cellId] = {
+                    image: spriteBow,
+                    name: 'Bow',
+                };
+            }
+            if (staffEvent) {
+                newEventSprites[cellId] = {
+                    image: spriteStaff,
+                    name: 'Staff',
+                };
+            }
+            if (swordEvent) {
+                newEventSprites[cellId] = {
+                    image: spriteSword,
+                    name: 'Sword',
+                };
+            }
+            if (potionEvent) {
+                newEventSprites[cellId] = {
+                    image: spritePotion,
+                    name: 'Potion',
+                };
+            }
+            if (chestEvent) {
+                newEventSprites[cellId] = {
+                    image: spriteChest,
+                    name: 'Chest',
+                };
+            }
+            if (doorKeyEvent) {
+                newEventSprites[cellId] = {
+                    image: spriteDoorKey,
+                    name: 'Door Key',
+                };
+            }
+            if (chestKeyEvent) {
+                newEventSprites[cellId] = {
+                    image: spriteChestKey,
+                    name: 'Chest Key',
+                };
+            }
+        });
+    
+        setEventSprites(newEventSprites); // Actualiza el estado de los sprites
+    };
+
     useEffect(() => {
         if (isTurnComplete) {
             alert("Turn completed.");
@@ -170,6 +253,7 @@ function Board() {
         const sprite = cellSprites[cell.type] || cellSprites['-'];
         const character = characters.find(char => char.cellId === cell.id);
         const isClickable = cell.type === '-' || cell.type === 'D' || cell.type === 'B';
+        const eventSprite = eventSprites[cell.id];
     
         return (
             <div
@@ -183,6 +267,13 @@ function Board() {
                         src={characterSprites[character.class.toLowerCase()]}
                         className="character-sprite"
                         alt={character.class}
+                    />
+                )}
+                {eventSprite && (
+                    <img
+                        src={eventSprite.image}
+                        className="event-sprite"
+                        alt="eventSprite.name"
                     />
                 )}
             </div>

@@ -616,7 +616,18 @@ input[type="checkbox"] {
   color: #333;
 }
 
-
+.event-sprite {
+  position: absolute; 
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  top: -5%;
+  object-fit: contain; 
+  z-index: 1; 
+  pointer-events: none;
+  transform: scale(0.8) 
+}
 
 /* Wiki */
 .wiki {

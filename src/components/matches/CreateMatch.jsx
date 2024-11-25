@@ -10,9 +10,9 @@ function CreateMatch({ userId }) {
     const handleCreateMatch = async () => {
         const response = await createMatch(userId, turns, isPublic, token);
         if (response.status === "success") {
-            alert("Partida creada con éxito!");
+            alert("Game created successfully");
         } else {
-            alert("Error al crear la partida: " + response.message);
+            alert("Creating game error: " + response.message);
         }
     };
 

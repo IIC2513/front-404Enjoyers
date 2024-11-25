@@ -70,6 +70,7 @@ export async function executeActionsInTurn(matchId, characterId, events, token) 
         return await response.json();
     } catch (error) {
         console.error('Error in executeActionsInTurn:', error);
+        alert(error.message);
         throw error;
     }
 }
@@ -82,4 +83,25 @@ export async function getEventsForCell(cellId, token) {
                 }
     });
     return await response.json();
+}
+
+export async function getEventsForMatch(matchId, token) {
+    try {
+        const response = await fetch(`${BASE_URL}/events/${matchId}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`,
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error(`Error fetching events for match: ${response.statusText}`);
+        }
+
+        return await response.json();
+    } catch (error) {
+        console.error("Error in getEventsForMatch:", error);
+        return { status: "error", message: error.message };
+    }
 }
