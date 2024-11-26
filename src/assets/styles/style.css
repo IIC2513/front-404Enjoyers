@@ -486,7 +486,7 @@ input[type="checkbox"] {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 115vh; 
+  height: 160vh; 
   background-image: url('../imgs/Dark_Castle_Background.jpg');
   background-size: cover;
   background-position: center;
@@ -542,6 +542,10 @@ input[type="checkbox"] {
   flex-direction: row;
   justify-content: space-around;
   padding: 1%;
+}
+
+.board-container h3, .board-container h2 {
+  background-color: rgba(255, 255, 255, 0.775);
 }
 
 /* Mensajes */
@@ -1011,4 +1015,100 @@ footer {
 .inventory .weapon p,
 .inventory .consumable p {
   margin: 0.3em 0;
+}
+
+/* stats */
+
+.stats {
+  color: #000000;
+  text-align: center;
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+  margin-top: 2%;
+  background-color: #bb6351;
+  border-radius: 20px
+}
+
+.stats h1, .stats h2 {
+  margin-bottom: 10px;
+  background-color: #ba796b;
+}
+
+
+.stats section {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8%;
+  margin: 20px;
+  background-color: #ca9386;;
+  border-radius: 20px
+}
+
+.stats .current-stats {
+  text-align: left;
+  max-width: 50%;
+}
+
+.stats .current-stats h3 {
+  margin: 5px;
+  padding-bottom: 5%;
+  font-size: 1.2em;
+}
+
+.stats .current-stats .upgradable,
+.stats .current-stats .not-upgradable{
+  background-color: rgba(255, 255, 255, 0.388);
+  margin-bottom: 10px;
+  min-width: 250px;
+}
+
+.stats .current-stats .upgradable {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.stats .upgradable button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  font-size: 1em;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.stats .upgradable button:hover {
+  background-color: #45a049;
+  transform: scale(1.1);
+}
+
+.stats .upgradable button:active {
+  background-color: #388e3c;
+  transform: scale(0.95);
+}
+
+.stats .upgradable button:disabled {
+  background-color: #ccc;
+  color: #666;
+  cursor: not-allowed;
+}
+
+.stats .sprite {
+  max-width: 40%;
+  text-align: center;
+}
+
+.stats .stat-character-sprite {
+  min-width: 120%;
+  height: auto;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: rgba(255, 255, 255, 0.39);
 }
