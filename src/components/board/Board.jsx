@@ -21,6 +21,9 @@ import spritePotion from '../../assets/imgs/items/potion.png';
 import spriteChest from '../../assets/imgs/items/Chest.png';
 import spriteDoorKey from '../../assets/imgs/items/Door Key.png';
 import spriteChestKey from '../../assets/imgs/items/chest_key.png';
+import spriteEnchantment from '../../assets/imgs/items/book.png';
+import spriteScroll from '../../assets/imgs/items/scroll.png';
+import spriteGoblet from '../../assets/imgs/items/goblet.png';
 import battleView from '../../views/battle';
 import '../../assets/styles/style.css';
 import { AuthContext } from '../auth/AuthContext';
@@ -183,6 +186,10 @@ function Board() {
             const chestEvent = events.find(event => event.name === 'lockedChest');
             const doorKeyEvent = events.find(event => event.name === 'Door Key');
             const chestKeyEvent = events.find(event => event.name === 'Chest Key');
+            const enchantmentEvent = events.find(event => event.name === 'Enchantment');
+            const scrollEvent = events.find(event => event.name === 'Scroll');
+            const gobletEvent = events.find(event => event.name === 'curseRelic');
+            const gobletEvent2 = events.find(event => event.name === 'blessingRelic');
             if (visibleEnemyEvent) {
                 newEventSprites[cellId] = {
                     image: spriteSkeletonGenericEnemy,
@@ -235,6 +242,30 @@ function Board() {
                 newEventSprites[cellId] = {
                     image: spriteChestKey,
                     name: 'Chest Key',
+                };
+            }
+            if (enchantmentEvent) {
+                newEventSprites[cellId] = {
+                    image: spriteEnchantment,
+                    name: 'Enchantment',
+                };
+            }
+            if (scrollEvent) {
+                newEventSprites[cellId] = {
+                    image: spriteScroll,
+                    name: 'Scroll',
+                };
+            }
+            if (gobletEvent) {
+                newEventSprites[cellId] = {
+                    image: spriteGoblet,
+                    name: 'Curse Relic',
+                };
+            }
+            if (gobletEvent2) {
+                newEventSprites[cellId] = {
+                    image: spriteGoblet,
+                    name: 'Blessing Relic',
                 };
             }
         });

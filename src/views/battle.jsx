@@ -9,7 +9,7 @@ function BattleView() {
     return (
         <div className="battle-view">
             {/* map={map} */}
-            <BattleBackground />
+            <battleBackground />
             {/* player={player} */}
             <PlayerInfo />
             {/* enemy={enemy} */}
@@ -18,7 +18,7 @@ function BattleView() {
                 onUsePotion={actions.onUsePotion}
                 onUseItem={actions.onUseItem}
                 onEscape={actions.onEscape} */}
-            <CombatActions 
+            <combatActions 
             />
         </div>
     );
