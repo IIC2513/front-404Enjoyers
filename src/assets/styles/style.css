@@ -1112,3 +1112,76 @@ footer {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   background-color: rgba(255, 255, 255, 0.39);
 }
+
+/* scoreboard */
+
+.scoreboard {
+  margin: 20px auto;
+  width: 80%;
+  max-width: 800px;
+  border: 2px solid #333;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  background-color: #f9f9f9;
+  font-family: Arial, sans-serif;
+  text-align: center;
+}
+
+.scoreboard h1 {
+  margin: 0;
+  padding: 15px 0;
+  font-size: 1.8rem;
+  background-color: #562828;
+  color: #fff;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.scoreboard section {
+  padding: 10px;
+}
+
+.scoreboard .headers {
+  display: flex;
+  font-weight: bold;
+  background-color: #923a3a;
+  color: #fff;
+  padding: 10px 0;
+  border-bottom: 2px solid #333;
+}
+
+.scoreboard .headers div {
+  flex: 1;
+  padding: 0 5px;
+}
+
+.scoreboard .entry {
+  display: flex;
+  padding: 10px 0;
+  border-bottom: 1px solid #ddd;
+  align-items: center;
+}
+
+.scoreboard .entry:nth-child(even) {
+  background-color: #f1f1f1;
+}
+
+.scoreboard .entry:nth-child(odd) {
+  background-color: #fff;
+}
+
+.scoreboard .entry div {
+  flex: 1;
+  padding: 0 5px;
+  font-size: 1rem;
+  text-align: center;
+}
+
+.scoreboard .entry:last-child {
+  border-bottom: none;
+}
+
+.scoreboard .score-character-sprite {
+  max-width: 30%;
+  height: auto;
+}
