@@ -13,7 +13,6 @@ function MatchPage() {
 
     return (
         <div className='matches'>
-            <h1>Matches Management</h1>
             <div className='card'>
                 <CreateMatch userId={userId}/>
             </div>
