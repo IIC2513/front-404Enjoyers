@@ -101,6 +101,7 @@ function AvailableMatches({ userId }) {
         <div className="matches-table">
             <div className="matches-header">
             <div>Match ID</div>
+            <div>Organizer</div>
             <div>Public</div>
             <div>Players</div>
             <div>Turns</div>
@@ -109,6 +110,7 @@ function AvailableMatches({ userId }) {
             {matches.map((match, index) => (
             <div key={match.id} className="matches-row">
                 <div>{match.id}</div>
+                <div>{users[index] ? `${users[index][0].username}` : ''}</div>
                 <div>{match.public ? 'Yes' : 'No'}</div>
                 <div>{users[index]?.length}/4</div>
                 <div>{match.turns}</div>

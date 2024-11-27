@@ -346,12 +346,7 @@ nav li a:hover {
 }
 
 .matches .card {
-  padding: 4%;
-}
-
-/* Styles for the container */
-.matches .card {
-  min-width: 800px;
+  min-width: 1000px;
   margin: 50px auto;
   padding: 20px;
   background: #e8bbb1;
@@ -381,17 +376,16 @@ input[type="checkbox"] {
   box-sizing: border-box;
 }
 
-/* Checkbox styles */
+
 .matches label {
   display: flex;
   align-items: center;
   gap: 8px;
   margin-bottom: 20px;
-  color: #bf360c; /* Burnt orange text */
+  color: #bf360c;
   font-weight: bold;
 }
 
-/* Button styles */
 .matches button {
   width: 100%;
   padding: 12px 20px;
@@ -414,7 +408,7 @@ input[type="checkbox"] {
 .matches .options {
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: space-evenly;
 }
 
 .matches-container {
@@ -423,7 +417,7 @@ input[type="checkbox"] {
 
 .matches-table {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(6, 1fr);
   gap: 10px;
   border: 1px solid #ff7043;
   border-radius: 5px;
@@ -1272,4 +1266,113 @@ footer {
 
 .addFriendBtn:hover {
   background-color: #2980b9;
+}
+
+/* selection (waiting room)*/
+
+.match-details{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.selection {
+  min-width: 400px;
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  text-align: center;
+  font-family: Arial, sans-serif;
+}
+
+.selection h3 {
+  font-size: 20px;
+  margin-bottom: 15px;
+  color: #333;
+  padding: 5%;
+}
+
+.selection p {
+  margin: 10px 0;
+  font-size: 14px;
+  color: black;
+  padding: 1%;
+}
+
+.selection input,
+.selection select {
+  width: 90%;
+  padding: 3%;
+  margin: 10px 0;
+  font-size: 14px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.selection button {
+  padding: 10px 15px;
+  font-size: 14px;
+  color: #fff;
+  background-color: #ebbe38;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.selection button:hover {
+  background-color: #d0a832;
+}
+
+.selection .card{
+  display: flex;
+  flex-direction: row;
+}
+
+.selection .class {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.selection #prevBtn, .selection #nextBtn{
+  background-color: #cecece;
+}
+
+.selection #prevBtn:hover, .selection #nextBtn:hover{
+  background-color: #a1a1a1;
+}
+
+.users-table {
+  padding-top: 20%;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.users-header {
+  display: contents;
+  background-color: #f5f5f5;
+  font-weight: bold;
+}
+
+.users-row {
+  display: contents;
+  align-items: center;
+  text-align: center;
+}
+
+.users-header > div,
+.users-row > div {
+  padding: 10px;
+  border-bottom: 1px solid #000000;
+}
+
+.users-row:last-child > div {
+  border-bottom: none;
 }
