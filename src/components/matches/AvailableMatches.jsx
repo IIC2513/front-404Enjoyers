@@ -11,26 +11,26 @@ function AvailableMatches({ userId }) {
     const navigate = useNavigate();
     const {token} = useContext(AuthContext);
 
+    async function fetchMatches() {
+        try {
+            const matchesResponse = await getAvailableMatches(token);
+            const availableMatches = matchesResponse.availableMatches || [];
+
+            setMatches(availableMatches);
+
+            const usersPromises = availableMatches.map(async (match) => {
+                const usersResponse = await getUsers(match.id, token);
+                return usersResponse.users;
+            });
+
+            const usersForMatches = await Promise.all(usersPromises);
+            setUsers(usersForMatches);
+        } catch (error) {
+            alert("Error at load available matches: " + error.message);
+        }
+    }
 
     useEffect(() => {
-        async function fetchMatches() {
-            try {
-                const matchesResponse = await getAvailableMatches(token);
-                const availableMatches = matchesResponse.availableMatches || [];
-
-                setMatches(availableMatches);
-
-                const usersPromises = availableMatches.map(async (match) => {
-                    const usersResponse = await getUsers(match.id, token);
-                    return usersResponse.users;
-                });
-
-                const usersForMatches = await Promise.all(usersPromises);
-                setUsers(usersForMatches);
-            } catch (error) {
-                alert("Error at load available matches: " + error.message);
-            }
-        }
         fetchMatches();
     }, []);
 
@@ -68,20 +68,16 @@ function AvailableMatches({ userId }) {
             alert(`The match with ID: ${match.id} is full.`);
             return;
         }
-
-        if (!match.public) {
-            setSelectedMatchId(match.id); // Solicitar contraseña si es privada
-        } else {
-            try {
-                const response = await joinMatch(match.id, userId, token);
-                if (response.status === 'success') {
-                    alert(`You have joined de match with ID: ${match.id}`);
-                } else {
-                    alert(`Error when joining the match: ${response.message}`);
-                }
-            } catch (error) {
-                alert("Error when trying to join the the match: " + error.message);
+        try {
+            const response = await joinMatch(match.id, userId, token);
+            if (response.status === 'success') {
+                alert(`You have joined de match with ID: ${match.id}`);
+                fetchMatches();
+            } else {
+                alert(`Error when joining the match: ${response.message}`);
             }
+        } catch (error) {
+            alert("Error when trying to join the the match: " + error.message);
         }
     };
 
@@ -105,6 +101,7 @@ function AvailableMatches({ userId }) {
         <div className="matches-table">
             <div className="matches-header">
             <div>Match ID</div>
+            <div>Organizer</div>
             <div>Public</div>
             <div>Players</div>
             <div>Turns</div>
@@ -113,6 +110,7 @@ function AvailableMatches({ userId }) {
             {matches.map((match, index) => (
             <div key={match.id} className="matches-row">
                 <div>{match.id}</div>
+                <div>{users[index] ? `${users[index][0].username}` : ''}</div>
                 <div>{match.public ? 'Yes' : 'No'}</div>
                 <div>{users[index]?.length}/4</div>
                 <div>{match.turns}</div>

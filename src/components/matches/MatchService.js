@@ -1,8 +1,6 @@
-const BASE_URL = "http://localhost:3000";
-
 // Funcion para crear una partida
 export async function createMatch(user_id, turns, isPublic, token) {
-    const response = await fetch(`${BASE_URL}/matches/new`, {
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/matches/new`, {
         method: "POST",
         headers: { "Content-Type": "application/json",
                     "Authorization": `Bearer ${token}`
@@ -14,7 +12,7 @@ export async function createMatch(user_id, turns, isPublic, token) {
 
 // Funcion para unirse a una partida
 export async function joinMatch(match_id, user_id, token) {
-    const response = await fetch(`${BASE_URL}/matches/join`, {
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/matches/join`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
@@ -26,7 +24,7 @@ export async function joinMatch(match_id, user_id, token) {
 
 // Funcion para abandonar una partida
 export async function leaveMatch(match_id, user_id, token) {
-    const response = await fetch(`${BASE_URL}/matches/leave`, {
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/matches/leave`, {
         method: "POST",
         headers: { "Content-Type": "application/json",
                     "Authorization": `Bearer ${token}`
@@ -38,7 +36,7 @@ export async function leaveMatch(match_id, user_id, token) {
 
 // Funcion para avanzar al siguiente turno
 export async function nextTurn(match_id, token) {
-    const response = await fetch(`${BASE_URL}/matches/next_turn`, {
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/matches/next_turn`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json",
                     "Authorization": `Bearer ${token}`
@@ -50,7 +48,7 @@ export async function nextTurn(match_id, token) {
 
 // Funcion para avanzar al siguiente jugador
 export async function nextPlayer(match_id, token) {
-    const response = await fetch(`${BASE_URL}/matches/next_player`, {
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/matches/next_player`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json",
                     "Authorization": `Bearer ${token}`
@@ -62,7 +60,7 @@ export async function nextPlayer(match_id, token) {
 
 // Funcion para finalizar una partida
 export async function finishMatch(match_id, winner_id, token) {
-    const response = await fetch(`${BASE_URL}/matches/finish`, {
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/matches/finish`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json",
                     "Authorization": `Bearer ${token}`
@@ -74,7 +72,7 @@ export async function finishMatch(match_id, winner_id, token) {
 
 // Funcion para obtener las partidas disponibles
 export async function getAvailableMatches(token) {
-    const response = await fetch(`${BASE_URL}/matches/available`, {
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/matches/available`, {
         method: "GET",
         headers: { "Content-Type": "application/json",
                     "Authorization": `Bearer ${token}`
@@ -86,7 +84,7 @@ export async function getAvailableMatches(token) {
 // Funcion para obtener las partidas en las que el usuario esta participando
 export async function getUserMatches(user_id, token) {
     try {
-        const response = await fetch(`${BASE_URL}/matches/user/${user_id}`, {
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/matches/user/${user_id}`, {
             method: 'GET',
             headers: { 'Content-Type': 'application/json',
                         "Authorization": `Bearer ${token}`
@@ -101,7 +99,7 @@ export async function getUserMatches(user_id, token) {
 
 // Funcion para obtener los detalles de una partida
 export async function getMatchDetails(matchId, token) {
-    const response = await fetch(`${BASE_URL}/matches/${matchId}`,{
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/matches/${matchId}`,{
         headers: { 'Content-Type': 'application/json',
                 "Authorization": `Bearer ${token}`
  }
@@ -112,7 +110,7 @@ export async function getMatchDetails(matchId, token) {
 
 // Funcion para seleccionar un personaje
 export async function setCharacter(matchId, userId, charClass, charName, token) {
-    const response = await fetch(`${BASE_URL}/matches/set_character`, {
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/matches/set_character`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
@@ -124,7 +122,7 @@ export async function setCharacter(matchId, userId, charClass, charName, token) 
 
 // Funcion para empezar una partida
 export async function startMatch(matchId, map, token) {
-    const response = await fetch(`${BASE_URL}/matches/start`, {
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/matches/start`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
@@ -136,7 +134,18 @@ export async function startMatch(matchId, map, token) {
 
 // Funcion para obtener usuarios de una partida
 export async function getUsers(matchId, token) {
-    const response = await fetch(`${BASE_URL}/matches/${matchId}/users`, {
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/matches/${matchId}/users`, {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+         },
+    });
+    return response.json();
+}
+
+// Funcion para obtener personajes de una partida
+export async function getCharacters(matchId, token) {
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/matches/${matchId}/characters`, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`

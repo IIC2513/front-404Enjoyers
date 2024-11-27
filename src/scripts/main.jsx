@@ -16,6 +16,7 @@ import AuthProvider from '../components/auth/AuthProvider.jsx';
 import Inventory from '../views/inventory';
 import Stats from '../views/stats.jsx';
 import Scoreboard from '../views/scoreboard.jsx';
+import Friends from '../components/user/friends.jsx';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -36,6 +37,7 @@ createRoot(document.getElementById('root')).render(
           <Route path="/inventories/:inventoryId" element={<Inventory />} />
           <Route path="/stats/:characterId" element={<Stats />} />
           <Route path="/scoreboard/:matchId" element={<Scoreboard />} />
+          <Route path="/user/:userId/friends" element={<Friends />} />
       </Routes>
     </Router>
     </AuthProvider>

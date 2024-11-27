@@ -1,8 +1,7 @@
-const BASE_URL = 'http://localhost:3000';
 
 export async function getBoardDetails(matchId, token) {
     try {
-        const response = await fetch(`${BASE_URL}/boards/${matchId}`, {
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/boards/${matchId}`, {
             method: "GET",
             headers: { "Content-Type": "application/json",
                         "Authorization": `Bearer ${token}`
@@ -17,7 +16,7 @@ export async function getBoardDetails(matchId, token) {
 
 export async function moveCharacter(character, matchId, x, y, token) {
     try {
-        const response = await fetch(`${BASE_URL}/boards/move`, {
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/boards/move`, {
             method: "POST",
             headers: { "Content-Type": "application/json",
                         "Authorization": `Bearer ${token}`
@@ -50,7 +49,7 @@ export async function moveCharacter(character, matchId, x, y, token) {
 
 export async function executeActionsInTurn(matchId, characterId, events, token) {
     try {
-        const response = await fetch(`${BASE_URL}/boards/actions`, {
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/boards/actions`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json',
                         "Authorization": `Bearer ${token}`
@@ -76,7 +75,7 @@ export async function executeActionsInTurn(matchId, characterId, events, token) 
 }
 
 export async function getEventsForCell(cellId, token) {
-    const response = await fetch(`${BASE_URL}/events/show/${cellId}`, {
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/events/show/${cellId}`, {
             method: 'GET',
             headers: { 'Content-Type': 'application/json',
                         "Authorization": `Bearer ${token}`
