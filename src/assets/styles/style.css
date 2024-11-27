@@ -80,7 +80,7 @@ nav li a:hover {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: white;
+  background-color: rgba(255, 255, 255, 0.94);
   padding: 20px;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
 }
@@ -171,18 +171,20 @@ nav li a:hover {
   background-color: #9c7e25;
 }
 
-#logoutBtn {
+#logoutBtn, #friendsBtn {
   text-align: center;
   color: black;
   background-color: #e8d7d3;
-  padding: 3px;
+  padding: 5px;
+  padding-left: 30px;
+  padding-right: 30px;
   font-size: 100%;
   border: none;
   border-radius: 5px;
   margin: 5px;
 }
 
-#logoutBtn:hover {
+#logoutBtn:hover, #friendsBtn:hover {
   background-color: #baadaa;
 }
 
@@ -191,6 +193,12 @@ nav li a:hover {
   justify-content: right;
   background-color: #ba796b;
   color: #ffffff;
+}
+
+#welcomeBtns {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
 }
 
 

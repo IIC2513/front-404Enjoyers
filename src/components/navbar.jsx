@@ -1,15 +1,17 @@
 import { useContext, useEffect, useState } from 'react';
 import './../assets/styles/style.css'
-import { Routes, Route, Link } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import axios from 'axios';
 import { AuthContext } from './auth/AuthContext';
 import LogoutButton from './auth/logout';
 import parseJwt from './auth/AuthParser';
+import Friends from './user/friends';
 
 function Navbar(){
   const {token} = useContext(AuthContext);
   const [msg, setMsg] = useState("");
   const userId = parseJwt(token)?.sub;
+  const navigate = useNavigate();
   const config = {
     method: 'get',
     url: `${import.meta.env.VITE_BACKEND_URL}/users/${userId}/show`,
@@ -33,6 +35,15 @@ function Navbar(){
       setMsg("");
   }
   }, [token]);
+
+  const handleClick = async () => {
+    try{
+      navigate(`/user/${userId}/friends`);
+    }catch(error){
+      console.error(`Error: ${error}`);
+    }
+  };
+
   return (
     <>
         <nav>
@@ -48,7 +59,13 @@ function Navbar(){
         </nav>
         <div className='welcome'>
         <h3>{msg}</h3>
+        <div id='welcomeBtns'>
+        {token !== null && <button id='friendsBtn'
+                                   onClick={() => {handleClick()}}
+                                   >Friends
+                            </button>}
         {token !== null && <LogoutButton />}
+        </div>
         </div>
     </>
   );
