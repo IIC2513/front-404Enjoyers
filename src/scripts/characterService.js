@@ -55,3 +55,13 @@ export async function setCharacter(match_id, user_id, char_class, char_name) {
     });
     return await response.json();
   }
+
+  export async function getBaseStats(class_name, token) {
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/characters/class/${class_name}`, {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+         },
+    });
+    return response.json();
+}
