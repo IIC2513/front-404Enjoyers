@@ -1,8 +1,8 @@
 function About(){
     return(
         <div className = "about">
-            <img src="public/assets/imgs/About Us.avif" alt="Background" id="about-background-image" />
-            <img src="public/assets/imgs/logoUC.png" alt="Logo" id="about-corner-logo" />
+            <img src="/assets/imgs/About Us.avif" alt="Background" id="about-background-image" />
+            <img src="/assets/imgs/logoUC.png" alt="Logo" id="about-corner-logo" />
 
             <article>
                 <header>
