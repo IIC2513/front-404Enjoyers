@@ -49,13 +49,13 @@ function Wiki() {
                                             <li>Druid</li>
                                         </ul>
                                     </li>
-                                    <li><a href="#notable-figures">Notable Figures</a>
+                                    {/* <li><a href="#notable-figures">Notable Figures</a>
                                         <ul>
                                             <li>Kings</li>
                                             <li>Faction Leaders</li>
                                             <li>World Sages</li>
                                         </ul>
-                                    </li>
+                                    </li> */}
                                     <li><a href="#enemies">Enemies</a>
                                         <ul>
                                             <li>Dragons</li>
@@ -83,7 +83,7 @@ function Wiki() {
                                     </li>
                                 </ul>
                             </li>
-                            <li><a href="#artifacts-items">Artifacts and Items</a>
+                            {/* <li><a href="#artifacts-items">Artifacts and Items</a>
                                 <ul>
                                     <li>Legendary Weapons
                                         <ul>
@@ -103,7 +103,7 @@ function Wiki() {
                                         </ul>
                                     </li>
                                 </ul>
-                            </li>
+                            </li> */}
                         </ul>
                     </section>
 
