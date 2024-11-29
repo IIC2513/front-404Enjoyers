@@ -48,7 +48,7 @@ function Navbar(){
     <>
         <nav>
             <Link to="/" className="navbar-logo">
-              <img src="/src/assets/imgs/logo.png" alt="Logo" className="logo-image" />
+              <img src="/public/assets/imgs/logo.png" alt="Logo" className="logo-image" />
             </Link>
             <ul>
               <li><Link to="/">Home</Link></li>
