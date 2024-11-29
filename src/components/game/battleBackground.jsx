@@ -1,19 +1,16 @@
 import React from 'react';
 
-// () --> { map }
-function battleBackground() {
+function BattleBackground({ background }) {
     const backgrounds = {
-        castle: 'url(../../assets/Dark_Castle_Background.png)',
-        // Add more backgrounds here
+        castle: '(../../assets/Dark_Castle_Background.png)',
     };
 
     return (
         <div 
             className="battle-background" 
-            // Instead of 0, map
-            style={{ backgroundImage: backgrounds[0] || backgrounds['castle'] }}
+            style={{ backgroundImage: backgrounds[background] || backgrounds['castle'] }}
         />
     );
 }
 
-export default battleBackground;
+export default BattleBackground;
