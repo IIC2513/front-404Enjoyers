@@ -65,8 +65,8 @@ export async function executeActionsInTurn(matchId, characterId, events, token) 
             const errorData = await response.json();
             throw new Error(errorData.message || 'Failed to execute actions.');
         }
-
-        return await response.json();
+        const responseData = await response.json();
+        return responseData;
     } catch (error) {
         console.error('Error in executeActionsInTurn:', error);
         alert(error.message);
@@ -86,7 +86,7 @@ export async function getEventsForCell(cellId, token) {
 
 export async function getEventsForMatch(matchId, token) {
     try {
-        const response = await fetch(`${BASE_URL}/events/${matchId}`, {
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/events/${matchId}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",

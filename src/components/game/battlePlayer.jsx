@@ -1,27 +1,45 @@
 import React from 'react';
+import spritebackKnight from '../../assets/imgs/knight/back.png';
+import spritebackArcher from '../../assets/imgs/archer/back.png';
+import spritebackMage from '../../assets/imgs/mage/back.png';
+import spritebackDwarf from '../../assets/imgs/dwarf/back.png';
+import spritebackdruid from '../../assets/imgs/druid/back.png';
+import spritebackElf from '../../assets/imgs/elf/back.png';
 
-// () --> { player }
-function battlePlayer({ player }) {
-    // const { icon, username, health, maxHealth, stats } = player;
+function BattlePlayer({ player }) {
+    if (!player) {
+        console.error("Player data is missing!");
+        return <div>Loading battle...</div>;  // Mostrar mensaje de carga si los datos aún no están listos
+    }
+    const name  = player.name;
+    const className = player.class;
+    const health = player.health;
+    const maxHealth = player.max_health;
+    const strength = player.strength;
+    const defense = player.defense;
+    const agility = player.agility;
+    const magic = player.magic;
+    const luck = player.luck;
+    const habilities = player.habilities;
+    const experience = player.experience;
+    const healthPercentage = (health / maxHealth) * 100;
 
-    // Hardcoded values for now
-    const icon = '../../assets/knight/right.png';
-    const name = 'Knight';
-    const health = 100;
-    const maxHealth = 100;
-    const stats = {
-        strength: 7,
-        defense: 7,
-        magic: 3,
-        luck: 5,
-        agility: 5,
+    //console.log('Class:', className);
+
+    const playerSprites = {
+        Knight: spritebackKnight,
+        Archer: spritebackArcher,
+        Mage: spritebackMage,
+        Dwarf: spritebackDwarf,
+        Druid: spritebackdruid,
+        Elf: spritebackElf,
     };
 
-    const healthPercentage = (health / maxHealth) * 100;
+    const playerImage = playerSprites[className]
 
     return (
         <div className="player-info">
-            <img src={icon} alt={`${name} icon`} className="player-icon" />
+            <img src={playerImage} alt={`${name} icon`} className="player-icon" />
             <div className="player-details">
                 <h3>{name}</h3>
                 <div className="health-bar">
@@ -31,15 +49,15 @@ function battlePlayer({ player }) {
                     />
                 </div>
                 <ul>
-                    <li>Strength: {stats.strength}</li>
-                    <li>Defense: {stats.defense}</li>
-                    <li>Agility: {stats.agility}</li>
-                    <li>Magic: {stats.magic}</li>
-                    <li>Luck: {stats.luck}</li>
+                <li>Strength: {strength}</li>
+                    <li>Defense: {defense}</li>
+                    <li>Agility: {agility}</li>
+                    <li>Magic: {magic}</li>
+                    <li>Luck: {luck}</li>
                 </ul>
             </div>
         </div>
     );
 }
 
-export default battlePlayer;
+export default BattlePlayer;

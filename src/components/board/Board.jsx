@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getBoardDetails, moveCharacter, executeActionsInTurn, getEventsForCell, getEventsForMatch } from './BoardServices';
 import { getMatchDetails, nextPlayer } from '../matches/MatchService';
+import { startFight } from '../game/fightsService';
 import spriteX from '../../assets/imgs/X.jpg';
 import spriteEmpty from '../../assets/imgs/empty.png';
 import spriteD from '../../assets/imgs/D.jpg';
@@ -24,7 +25,7 @@ import spriteChestKey from '../../assets/imgs/items/chest_key.png';
 import spriteEnchantment from '../../assets/imgs/items/book.png';
 import spriteScroll from '../../assets/imgs/items/scroll.png';
 import spriteGoblet from '../../assets/imgs/items/goblet.png';
-import battleView from '../../views/battle';
+import BattleView from '../../views/battle';
 import '../../assets/styles/style.css';
 import { AuthContext } from '../auth/AuthContext';
 import parseJwt from '../auth/AuthParser';
@@ -47,6 +48,8 @@ function Board() {
     const navigate = useNavigate();
     // Para el combate
     const [isInCombat, setIsInCombat] = useState(false);
+    const [enemy, setEnemy] = useState(null);
+    const [fight, setFight] = useState(null);
     // Sprites
     const [eventSprites, setEventSprites] = useState({});
 
@@ -120,14 +123,24 @@ function Board() {
                     if (cellEventsResponse.status === 'success') {
                         setCellEvents(cellEventsResponse.events);
 
-                        // Redirect to battle
-                        // if (cellEventsResponse.events.some(event => event.type === 'combat')) {
-                        //     setIsInCombat(true);
-                        // }
-
-                        // if (cellEventsResponse.events.length === 0) {
-                        //     await handleEndTurn();
-                        // }
+                        const visibleEnemyEvent = cellEventsResponse.events.find(event => event.name === 'visibleEnemy');
+                        if (visibleEnemyEvent) {
+                            const fightData = await startFight(currentCharacter.id, token);
+                            //console.log("fightData:", fightData);
+                            //console.log("fightData.enemy:", fightData.enemy);
+                            setIsInCombat(true);
+                            if (fightData && fightData.enemy) {
+                                //console.log("Enemy data:", fightData.enemy);
+                                setEnemy(fightData.enemy);
+                                //console.log("Fight data:", fightData.fight);
+                                setFight(fightData.fight);
+                            } else {
+                                console.error("Error: Enemy data is missing:", fightData.message);
+                            }
+                        } else {
+                            setIsInCombat(false);
+                            setEnemy(null);
+                        }
                     }
                 } else {
                     alert("Error: " + response.message);
@@ -163,6 +176,9 @@ function Board() {
                 setSelectedEvents([]);
                 setIsTurnComplete(true);
                 setIsActionPhase(false);
+                if (response.enemy) {
+                    setEnemy(response.enemy);
+                }
                 fetchBoard();
             } else {
                 alert("Error executing actions: " + response.message);
@@ -340,7 +356,13 @@ function Board() {
         <div className="board-container">
             {/* Si isInCombat es true, renderizar la vista de batalla */}
             {isInCombat ? (
-                <battleView matchId={matchId} /> 
+                <BattleView 
+                matchId={matchId} 
+                player={currentCharacter} 
+                enemy={enemy}
+                fight= {fight}
+                token={token}
+            /> 
             ) : (
                 <>
                     <div>

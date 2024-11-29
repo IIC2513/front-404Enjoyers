@@ -496,6 +496,7 @@ input[type="checkbox"] {
   background-size: cover;
   background-position: center;
   padding-top: 0px; /* Espacio debajo de la navbar */
+  z-index: 0;
 }
 
 .board {
@@ -506,6 +507,7 @@ input[type="checkbox"] {
   padding: 15px;
   border-radius: 8px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+  z-index: 1;
 }
 
 .board-cell {
@@ -1575,6 +1577,99 @@ footer {
   margin: 5px 0;
   font-size: 16px;
   color: #333;
+}
+
+/* fight */
+.battle-view {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  height: 100vh;
+  width: 130vh; 
+  background-color: #fafafa;
+  overflow: hidden;
+  z-index: 20;
+}
+
+.battle-background {
+  position: absolute;
+  max-width: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url('../imgs/DarkCastleFight.jpg');  /* Fondo de batalla */
+  background-size: cover;
+  z-index: -1;
+}
+
+.battle-characters {
+  display: flex;
+  justify-content: space-between;
+  width: 50%;
+  height: 60%;
+  position: relative;
+  z-index: 2;
+}
+
+.character {
+  position: relative;
+  bottom: 100px;
+  width: 60%;
+  height: 150%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.character img {
+  max-width: 100%;
+  height: auto;
+  width: 100%;
+}
+
+.enemy {
+  max-width: 100%;
+  height: auto;
+  width: 100%;
+  z-index: 2;
+}
+
+.options-container {
+  position: absolute;
+  bottom: 20px;
+  width: 100%;
+  text-align: center;
+  z-index: 2;
+}
+
+.options-container button {
+  top: 30px;
+  margin: 0 10px;
+  padding: 20px;
+  background-color: #de7316;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.options-container button:disabled {
+  background-color: #888;
+}
+
+.combat-message {
+  margin-top: 60px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border: 2px solid #de7316;
+  border-radius: 5px;
+  font-size: 16px;
+  color: #333;
+  text-align: center;
+  width: 80%;
+  z-index: 2;
 }
 
 /* End Game Screen */

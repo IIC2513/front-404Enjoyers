@@ -1,19 +1,12 @@
 import React from 'react';
 
-// () --> { onAttack, onUsePotion, onUseItem, onEscape }
-function combatActions() {
+function CombatActions({ onAttack, onUsePotion, onUseItem, onEscape }) {
     return (
         <div className="combat-actions">
-            {/* onClick={onAttack} */}
-            <button>Attack</button>
-            {/* onClick={onUsePotion} */}
-            <button>Use Potion</button>
-            {/* onClick={onUseItem} */}
-            <button>Use Item</button>
-            {/* onClick={onEscape} */}
-            <button>Escape</button>
+            <button onClick={onAttack}>Attack</button>
+            <button onClick={onEscape}>Escape</button>
         </div>
     );
 }
 
-export default combatActions;
+export default CombatActions;
