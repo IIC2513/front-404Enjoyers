@@ -6,7 +6,11 @@
 - Matías Harrison
 - Benjamín Martinez
 
-## Ejecución
+## Deploy
+
+Juego desplegado en [Netlify](https://timely-smakager-db25e2.netlify.app)
+
+## Ejecución (localhost)
 
 Si no has instalado las dependencias, utiliza el siguiente comando en consola
 ```console
@@ -37,6 +41,9 @@ Además, este proyecto funciona en conjunto al backend, sigue los pasos de ejecu
 8. Una vez la partida empezada, de nuevo en la pestaña de todas las partidas, puedes entrar al tablero del juego clickeando una partida en progreso
 9. Una vez en el tablero, puedes clickear la casilla a la que te quieras mover y el personaje se moverá a esta si es posible.
 10. En el apartado de abajo se encuentran los eventos de la celda en que has caído
+11. Elige evento(s) y ejecutalo(s)
+12. Puedes usar las pestañas de inventario, stats y scoreboard en todo momento
+13. Disfruta!
 
 
 ## Documentos
