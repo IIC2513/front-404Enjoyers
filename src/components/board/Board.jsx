@@ -124,11 +124,17 @@ function Board() {
                         setCellEvents(cellEventsResponse.events);
 
                         const visibleEnemyEvent = cellEventsResponse.events.find(event => event.name === 'visibleEnemy');
-                        if (visibleEnemyEvent) {
+                        const hiddenEnemyEvent = cellEventsResponse.events.find(event => event.name === 'hiddenEnemy');
+                        if (visibleEnemyEvent || hiddenEnemyEvent) {
                             const fightData = await startFight(currentCharacter.id, token);
+                            const response = await executeActionsInTurn(parseMatchId, currentCharacter.id, selectedEvents, token);
+                            if (response.status === 'success') {
                             //console.log("fightData:", fightData);
                             //console.log("fightData.enemy:", fightData.enemy);
-                            setIsInCombat(true);
+                                setIsInCombat(true);
+                                setSelectedEvents([]);
+                                fetchBoard();
+                            }
                             if (fightData && fightData.enemy) {
                                 //console.log("Enemy data:", fightData.enemy);
                                 setEnemy(fightData.enemy);
@@ -352,6 +358,21 @@ function Board() {
         }
     };
 
+    const handelCombatEnd = () => {
+        setIsInCombat(false);
+        setEnemy(null);
+        setFight(null);
+        setSelectedEvents([]);
+        setIsActionPhase(false);
+        setIsTurnComplete(true);
+    };
+
+    useEffect(() => {
+        if (!isInCombat && isTurnComplete) {
+            fetchBoard();
+        }
+    }, [isInCombat, isTurnComplete]);
+
     return (
         <div className="board-container">
             {/* Si isInCombat es true, renderizar la vista de batalla */}
@@ -362,6 +383,7 @@ function Board() {
                 enemy={enemy}
                 fight= {fight}
                 token={token}
+                onCombatEnd={handelCombatEnd}
             /> 
             ) : (
                 <>

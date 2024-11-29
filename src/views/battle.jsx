@@ -3,35 +3,73 @@ import BattleBackground from '../components/game/battleBackground';
 import BattlePlayer from '../components/game/battlePlayer';
 import BattleEnemy from '../components/game/battleEnemy';
 import CombatActions from '../components/game/combatActions';
-import { executeCombatAction } from '../components/game/fightsService';
+import { executeCombatAction, getCharacterInfo, getEnemyInfo, getFightInfo } from '../components/game/fightsService';
+import { useNavigate } from 'react-router-dom';
 
-function BattleView({ matchId, player, enemy, fight, token }) {
+function BattleView({ matchId, player, enemy, fight, token, onCombatEnd }) {
     const [combatMessage, setCombatMessage] = useState('');
     const [isCombatFinished, setIsCombatFinished] = useState(false);
+    const [currentPlayer, setCurrentPlayer] = useState(null);
+    const [currentEnemy, setCurrentEnemy] = useState(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
-        if (!player || !enemy) {
-            console.error("Player or enemy data is missing! Player: ", player, "Enemy: ", enemy);
+        const loadInitialData = async () => {
+            try {
+                setCurrentPlayer(player);
+                setCurrentEnemy(enemy);
+            } catch (error) {
+                console.error('Error loading initial combat data:', error);
+            }
+        };
+
+        if (player && player.id && enemy && enemy.id) {
+            loadInitialData();
         } else {
-            //console.log("Player data:", player);
-            //console.log("Enemy data:", enemy);
+            console.error("Player or enemy data is missing! Player: ", player, "Enemy: ", enemy);
         }
     }, [player, enemy]);
 
+    useEffect(() => {
+        if (isCombatFinished) {
+            onCombatEnd();
+            console.log('Combat finished!');
+            console.log('Character:', currentPlayer);
+        }
+    }, [isCombatFinished, onCombatEnd]);
+
+    const loadCombatData = async () => {
+        try {
+            const playerData = await getCharacterInfo(player.id, token);
+            const enemyData = await getEnemyInfo(enemy.id, token);
+
+            setCurrentPlayer(playerData.character);
+            setCurrentEnemy(enemyData.enemy);
+        } catch (error) {
+            console.error('Error loading combat data:', error);
+        }
+    };
+
+
     // Si los datos no están disponibles, muestra un mensaje de carga
-    if (!player || !enemy) {
+    if (!currentPlayer || !currentEnemy) {
         return <div>Loading battle...</div>;
     }
     // Función para ejecutar el ataque
     const handleAttack = async () => {
         try {
-            const response = await executeCombatAction(fight.id, 'attack', null, token);  // Llamada al backend para ejecutar ataque
-            console.log('Attacker:', fight.turn)
+            const fightInfo = await getFightInfo(fight.id, token);
+            const response = await executeCombatAction(fightInfo.fight.id, 'attack', null, token);  // Llamada al backend para ejecutar ataque
+            
+            //console.log('Attacker:', fight.turn)
             setCombatMessage(response.message);  // Mostrar mensaje con el resultado
-
-            if (response.status === 'finished') {
+            //console.log('fight status:', fightInfo.fight.status);
+            //console.log('fight data:', fightInfo.fight);
+            if (fightInfo.fight.status === 'finished') {
                 setIsCombatFinished(true);  // Si la pelea terminó, marca el estado
-            }
+            } else {
+                await loadCombatData();
+            }  // Cargar datos de combate
         } catch (error) {
             setCombatMessage('Error executing attack.');  // Mensaje de error
         }
@@ -41,11 +79,13 @@ function BattleView({ matchId, player, enemy, fight, token }) {
     const handleDefend = async () => {
         try {
             const response = await executeCombatAction(fight.id, 'defend', null, token);  // Llamada al backend para defender
+            const fightInfo = await getFightInfo(fight.id, token);
             setCombatMessage(response.message);
 
-            if (response.status === 'finished') {
+            if (fightInfo.fight.status === 'finished') {
                 setIsCombatFinished(true);  // Terminar la pelea si corresponde
             }
+            await loadCombatData();  // Cargar datos de combate
         } catch (error) {
             setCombatMessage('Error executing defend.');
         }
@@ -66,11 +106,13 @@ function BattleView({ matchId, player, enemy, fight, token }) {
     const handleUseHability = async (habilityId) => {
         try {
             const response = await executeCombatAction(matchId, 'useHability', habilityId, token);  // Llamada al backend para usar habilidad
+            const fightInfo = await getFightInfo(fight.id, token);
             setCombatMessage(response.message);
 
-            if (response.status === 'finished') {
+            if (fightInfo.fight.status === 'finished') {
                 setIsCombatFinished(true);  // Terminar combate si es necesario
             }
+            await loadCombatData();  // Cargar datos de combate
         } catch (error) {
             setCombatMessage('Error using hability.');
         }
@@ -88,12 +130,12 @@ function BattleView({ matchId, player, enemy, fight, token }) {
             <div className="battle-characters">
                 {/* Mostrar el jugador */}
                 <div className="character">
-                    <BattlePlayer player={player} />
+                    <BattlePlayer player={currentPlayer} />
                 </div>
 
                 {/* Mostrar el enemigo */}
                 <div className="character enemy">
-                    <BattleEnemy enemy={enemy} />
+                    <BattleEnemy enemy={currentEnemy} />
                 </div>
             </div>
 
