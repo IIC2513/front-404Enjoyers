@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { io } from 'socket.io-client';
 import { getBoardDetails, moveCharacter, executeActionsInTurn, getEventsForCell, getEventsForMatch } from './BoardServices';
 import { getMatchDetails, nextPlayer } from '../matches/MatchService';
 import { startFight } from '../game/fightsService';
@@ -29,6 +30,8 @@ import BattleView from '../../views/battle';
 import '../../assets/styles/style.css';
 import { AuthContext } from '../auth/AuthContext';
 import parseJwt from '../auth/AuthParser';
+
+const socket = io('http://localhost:3000')
 
 function Board() {
     const { matchId } = useParams();
@@ -83,6 +86,18 @@ function Board() {
         fetchBoard();
     }, [matchId]);
 
+    useEffect(() => {
+        socket.on('UPDATE_BOARD', (data) => {
+            if (data.matchId === matchId) {
+                fetchBoard();
+            }
+        });
+
+        return () => {
+            socket.off('UPDATE_BOARD');
+        };
+    }, [matchId]);
+
     const cellSprites = {
         'X': spriteX,
         '-': spriteEmpty,
@@ -105,7 +120,7 @@ function Board() {
             alert(`It's not your turn. You are ${characters.find(c=> c.userId === userId)?.name}`);
             return;
         }
-        if (['-', 'B'].includes(cell.type) && currentCharacter) {
+        if (['-'].includes(cell.type) && currentCharacter) {
             try {
                 const response = await moveCharacter(currentCharacter, parseMatchId, cell.x, cell.y, token);
                 if (response.status === 'success') {
@@ -186,6 +201,7 @@ function Board() {
                     setEnemy(response.enemy);
                 }
                 fetchBoard();
+                socket.emit('UPDATE_BOARD', { matchId});
             } else {
                 alert("Error executing actions: " + response.message);
             }

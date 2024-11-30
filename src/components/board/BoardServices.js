@@ -1,3 +1,4 @@
+import { broadcastUpdate } from '../../../server';
 
 export async function getBoardDetails(matchId, token) {
     try {
@@ -66,6 +67,7 @@ export async function executeActionsInTurn(matchId, characterId, events, token) 
             throw new Error(errorData.message || 'Failed to execute actions.');
         }
         const responseData = await response.json();
+        broadcastUpdate(matchId);
         return responseData;
     } catch (error) {
         console.error('Error in executeActionsInTurn:', error);
