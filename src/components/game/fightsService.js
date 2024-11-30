@@ -135,3 +135,14 @@ export async function getFightInfo(fightId, token) {
         throw error;
     }
 }
+
+
+export async function availableAbilities(characterId, token) {
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/habilities/${characterId}/available`, {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json',
+                        "Authorization": `Bearer ${token}`
+                }
+    });
+    return await response.json();
+}

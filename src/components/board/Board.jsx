@@ -379,7 +379,7 @@ function Board() {
             {isInCombat ? (
                 <BattleView 
                 matchId={matchId} 
-                player={currentCharacter} 
+                player={characters.find(c=> c.userId === userId)} 
                 enemy={enemy}
                 fight= {fight}
                 token={token}

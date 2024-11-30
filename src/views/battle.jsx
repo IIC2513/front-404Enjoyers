@@ -3,7 +3,7 @@ import BattleBackground from '../components/game/battleBackground';
 import BattlePlayer from '../components/game/battlePlayer';
 import BattleEnemy from '../components/game/battleEnemy';
 import CombatActions from '../components/game/combatActions';
-import { executeCombatAction, getCharacterInfo, getEnemyInfo, getFightInfo } from '../components/game/fightsService';
+import { executeCombatAction, getCharacterInfo, getEnemyInfo, getFightInfo, availableAbilities } from '../components/game/fightsService';
 import { useNavigate } from 'react-router-dom';
 
 function BattleView({ matchId, player, enemy, fight, token, onCombatEnd }) {
@@ -11,6 +11,8 @@ function BattleView({ matchId, player, enemy, fight, token, onCombatEnd }) {
     const [isCombatFinished, setIsCombatFinished] = useState(false);
     const [currentPlayer, setCurrentPlayer] = useState(null);
     const [currentEnemy, setCurrentEnemy] = useState(null);
+    const [inOptions, setInOptions] = useState(true);
+    const [abilities, setAbilities] = useState([]);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -28,7 +30,7 @@ function BattleView({ matchId, player, enemy, fight, token, onCombatEnd }) {
         } else {
             console.error("Player or enemy data is missing! Player: ", player, "Enemy: ", enemy);
         }
-    }, [player, enemy]);
+    }, [player, enemy, inOptions]);
 
     useEffect(() => {
         if (isCombatFinished) {
@@ -102,6 +104,17 @@ function BattleView({ matchId, player, enemy, fight, token, onCombatEnd }) {
         }
     };
 
+        // Función para abrir menu habilidades
+        const handleAbilityMenu = async () => {
+            try {
+                const response = await availableAbilities(currentPlayer.id, token);
+                setInOptions(!inOptions);
+                setAbilities(response.abilities);
+            } catch (error) {
+                setCombatMessage('Error while opening ability menu.');
+            }
+        };
+
     // Función para usar habilidad
     const handleUseHability = async (habilityId) => {
         try {
@@ -141,6 +154,11 @@ function BattleView({ matchId, player, enemy, fight, token, onCombatEnd }) {
 
             <div className="options-container">
                 {/* Mostrar botones de opciones */}
+                {inOptions && 
+                <div>
+                <button onClick={handleAbilityMenu} disabled={isCombatFinished}>
+                    Abilities
+                </button>
                 <button onClick={handleAttack} disabled={isCombatFinished}>
                     Attack
                 </button>
@@ -150,13 +168,20 @@ function BattleView({ matchId, player, enemy, fight, token, onCombatEnd }) {
                 <button onClick={handleEscape} disabled={isCombatFinished}>
                     Escape
                 </button>
-
-                {/* Mostrar botones para habilidades si existen */}
-                {player.habilities?.map((hability) => (
-                    <button key={hability.id} onClick={() => handleUseHability(hability.id)} disabled={isCombatFinished}>
-                        Use {hability.name}
+                </div>
+                }
+                {!inOptions && 
+                <div>
+                    {abilities.map(ability => (
+                    <button key={ability.id} onClick={() => handleUseHability(ability.id)} disabled={isCombatFinished}>
+                        {ability.name}
                     </button>
-                ))}
+                    ))}
+                <button onClick={() => {setInOptions(!inOptions);}} disabled={isCombatFinished}>
+                    Back
+                </button>
+                </div>
+                }
             </div>
 
             <p className="combat-message">{combatMessage}</p>
