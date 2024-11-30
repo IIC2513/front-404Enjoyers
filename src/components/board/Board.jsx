@@ -29,6 +29,7 @@ import BattleView from '../../views/battle';
 import '../../assets/styles/style.css';
 import { AuthContext } from '../auth/AuthContext';
 import parseJwt from '../auth/AuthParser';
+import EndGame from '../../views/endGame';
 
 function Board() {
     const { matchId } = useParams();
@@ -52,6 +53,9 @@ function Board() {
     const [fight, setFight] = useState(null);
     // Sprites
     const [eventSprites, setEventSprites] = useState({});
+    // Finish
+    const [isGameFinished, setIsGameFinished] = useState(false);
+    const [finalBoss, setFinalBoss] = useState(null);
 
     async function fetchBoard() {
         try {
@@ -71,6 +75,10 @@ function Board() {
                 setCharacterTurn(matchResponse.match.characterTurn);
 
                 assignSpritesToCells(eventsResponse.events);
+                const parseMatchTurns = parseInt(matchResponse.match.turns, 10);
+                if (matchResponse.match.currentTurn === parseMatchTurns) {
+                setIsGameFinished(true);
+            }
             } else {
                 console.error("Error: Unable to fetch board or match details");
             }
@@ -105,8 +113,55 @@ function Board() {
             alert(`It's not your turn. You are ${characters.find(c=> c.userId === userId)?.name}`);
             return;
         }
-        if (['-', 'B'].includes(cell.type) && currentCharacter) {
+        if (['B'].includes(cell.type) && currentCharacter) {
             try {
+                const response = await moveCharacter(currentCharacter, parseMatchId, cell.x, cell.y, token);
+                if (response.status === 'success') {
+                    setMessages([response.message]);
+                    const updatedCharacter = response.character;
+                    setCharacters(prevCharacters =>
+                        prevCharacters.map(char =>
+                            char.id === updatedCharacter.id ? updatedCharacter : char
+                        )
+                    );
+                    //setAvailableActions(updatedCharacter.actions);
+                    setIsActionPhase(true);
+
+                    const fightData = await startFight(currentCharacter.id, token);
+                    if (fightData && fightData.enemy) {
+                        if (cell.type === 'B') {
+                            setFinalBoss(fightData.enemy);
+                        }
+                        setEnemy(fightData.enemy);
+                        setFight(fightData.fight);
+                        setIsInCombat(true);
+                        fetchBoard();
+                    } else {
+                        console.error("Error: Enemy data is missing:", fightData.message);
+                    }
+                } else {
+                    alert("Error: " + response.message);
+                }
+            } catch (error) {
+                if (error.message === "Cell out of reach.") {
+                    alert("Not valid move, the cell is out of reach.");
+                } else if (error.message === "Movement blocked by an obstacle.") {
+                    alert("Movement blocked: there is an obstacle in the way.");
+                } else {
+                    console.error("Error moving character:", error);
+                }
+            }
+        };
+
+        if (['-'].includes(cell.type) && currentCharacter) {
+            try {
+                const GameData = await getMatchDetails(matchId, token);
+                const parseMatchTurns = parseInt(GameData.match.turns, 10);
+                //console.log("GameData:", GameData.match.currentTurn);
+                //console.log("parseMatchTurns:", parseMatchTurns);
+                if (GameData.match.currentTurn === parseMatchTurns) {
+                    setIsGameFinished(true);
+                }
                 const response = await moveCharacter(currentCharacter, parseMatchId, cell.x, cell.y, token);
                 if (response.status === 'success') {
                     setMessages([response.message]);
@@ -176,6 +231,11 @@ function Board() {
     const executeActions = async () => {
         try {
             const parseMatchId = parseInt(matchId, 10);
+            const GameData = await getMatchDetails(matchId, token);
+            const parseMatchTurns = parseInt(GameData.match.turns, 10);
+            if (GameData.match.currentTurn === parseMatchTurns) {
+                setIsGameFinished(true);
+            }
             const response = await executeActionsInTurn(parseMatchId, currentCharacter.id, selectedEvents, token);
             if (response.status === 'success') {
                 setMessages(response.messages);
@@ -185,7 +245,9 @@ function Board() {
                 if (response.enemy) {
                     setEnemy(response.enemy);
                 }
+                
                 fetchBoard();
+
             } else {
                 alert("Error executing actions: " + response.message);
             }
@@ -365,6 +427,10 @@ function Board() {
         setSelectedEvents([]);
         setIsActionPhase(false);
         setIsTurnComplete(true);
+
+        if (finalBoss && enemy && finalBoss.id === enemy.id) {
+            setIsGameFinished(true);
+        }
     };
 
     useEffect(() => {
@@ -376,12 +442,18 @@ function Board() {
     return (
         <div className="board-container">
             {/* Si isInCombat es true, renderizar la vista de batalla */}
-            {isInCombat ? (
-                <BattleView 
+            {isGameFinished ? (
+            <EndGame 
+                winner={currentCharacter}
+                charaters={characters}
+                
+            />
+            ) : isInCombat ? (
+            <BattleView 
                 matchId={matchId} 
                 player={currentCharacter} 
                 enemy={enemy}
-                fight= {fight}
+                fight={fight}
                 token={token}
                 onCombatEnd={handelCombatEnd}
             /> 
